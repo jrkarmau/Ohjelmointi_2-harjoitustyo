@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fi.jyu.mit.fxgui.ComboBoxChooser?>
+<?import fi.jyu.mit.fxgui.ListChooser?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxKirjasto.KirjastoGUIController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Tiedosto">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Tallenna">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+              <MenuItem mnemonicParsing="false" text="Sulje">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Muokkaa">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Lisää Kirja" />
+                  <MenuItem mnemonicParsing="false" text="Poista Kirja" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Apua">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Tiedot" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <BorderPane prefWidth="180.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="5.0" />
+         </BorderPane.margin>
+         <center>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ComboBoxChooser minWidth="180.0" rivit="Nimi&#10;Kirjailija&#10;Kieli&#10;Julkaistu&#10;Kustantaja&#10;ISBN&#10;Sivumäärä&#10;Genre" />
+                  <TextField promptText="hae...." />
+                  <Label text="Kirjat">
+                     <VBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ListChooser rivit="Taru sormusten herrasta&#10;Seitsemän veljestä&#10;Tuulen nimi&#10;Täällä pohjantähden alla&#10;Locke Lamoran valheet&#10;Rautatie&#10;Tuntematon sotilas&#10;" />
+               </children>
+            </VBox>
+         </center>
+         <top>
+            <Label text="Haku" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+      </BorderPane>
+   </left>
+   <right>
+      <BorderPane BorderPane.alignment="CENTER">
+         <top>
+            <Label text="Kommentit" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <content>
+                  <VBox prefHeight="292.0" prefWidth="197.0" spacing="2.0">
+                     <children>
+                        <TextArea editable="false" prefWidth="181.0" text="Olen kirjan kohdassa 250 ja tähän mennessä voin suositella." wrapText="true">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TextArea>
+                        <TextArea editable="false" promptText="Kirjoita kommentti" text="Taru sormusten herrasta -kirjaa on myyty yli 150 miljoonaa kappaletta, ja se on yksi myydyimmistä romaaneista kautta aikojen. Sen työstäminen alkoi Tolkienin vuoden 1937 fantasiaromaanin Hobitti eli sinne ja takaisin jatko-osana, mutta siitä tuli lopulta paljon suurempi teos." wrapText="true" />
+                        <TextArea editable="false" layoutX="10.0" layoutY="151.0" promptText="Kirjoita kommentti..." wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </center>
+         <BorderPane.margin>
+            <Insets right="5.0" />
+         </BorderPane.margin></BorderPane>
+   </right>
+   <center>
+      <BorderPane minWidth="180.0" prefHeight="315.0" prefWidth="246.0" BorderPane.alignment="CENTER">
+         <top>
+            <Label text="Kirjan tiedot" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+               <content>
+                  <GridPane hgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints />
+                      <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" prefWidth="200.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <padding>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <Label GridPane.columnIndex="1" />
+                        <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Kieli" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Julkaistu" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Kustantaja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="ISBN" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField editable="false" text="Taru sormusten herrasta" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
+                        <TextField editable="false" text=" J. R. R. Tolkienin" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                        <TextField editable="false" text="Englanti" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                        <TextField editable="false" text="1955" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                        <TextField editable="false" text="Allen &amp; Unwin" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                        <TextField editable="false" text="978-951-0-33337-2" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
+                        <TextField editable="false" text="359" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                        <Label text="Nimi" GridPane.columnIndex="1" />
+                        <Label text="Kirjailija" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Sivumäärä" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label text="Genre" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField editable="false" text="korkea fantasia" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </center>
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <left>
+            <HBox spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Lisää kirja" />
+                  <Button mnemonicParsing="false" text="Tallenna" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </left>
+         <right>
+            <HBox spacing="15.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Lisää kommentti" />
+                  <Button mnemonicParsing="false" text="Muokkaa kommenttia" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </right>
+      </BorderPane>
+   </bottom>
+</BorderPane>

@@ -1,3 +1,3 @@
 # Suunnitelman kuvat
 
-Harjoitustyön ensimmäisen vaiheen kuvat käsin piirrettynä.
+Harjoitustyön toisen vaiheet kuvat Scenebuilderilla tehtynä
