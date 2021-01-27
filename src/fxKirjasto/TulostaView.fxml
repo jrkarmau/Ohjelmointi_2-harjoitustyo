@@ -7,12 +7,11 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <content>
-            <TextArea prefHeight="684.0" prefWidth="399.0" text="Valitut kirjat&#10;----------------------------------------------------------------------------&#10;&#10;Nimi                 :  Täällä Pohjantähden alla&#10;Kirjailija            :  Väinö Linna&#10;Kieli                  :  suo&#10;Julkaistu           :  1959&#10;Kustantaja        :  WSOY&#10;ISBN                 :  978-951-0-43572-4&#10;Sivumäärä        :  1174&#10;Genre               :  Kaunokirjallisuus&#10;&#10;----------------------------------------------------------------------------&#10;&#10;Nimi                 :  Taru sormusten&#10;Kirjailija            :  J. R. R. Tolkien&#10;Kieli                  :  englanti&#10;Julkaistu           :  1955&#10;Kustantaja        :  Allen &amp; Unwin&#10;ISBN                 :  978-951-0-33337-2&#10;Sivumäärä        :  359&#10;Genre               :  korkea fantasia&#10;&#10;----------------------------------------------------------------------------" />
+            <TextArea prefHeight="684.0" prefWidth="399.0" text="Valitut kirjat&#10;----------------------------------------------------------------------------&#10;&#10;Nimi                 :  Täällä Pohjantähden alla&#10;Kirjailija            :  Väinö Linna&#10;Kieli                  :  suo&#10;Julkaistu           :  1959&#10;Kustantaja        :  WSOY&#10;ISBN                 :  978-951-0-43572-4&#10;Sivumäärä        :  1174&#10;Genre               :  Kaunokirjallisuus&#10;&#10;----------------------------------------------------------------------------&#10;&#10;Nimi                 :  Taru sormusten herrasta&#10;Kirjailija            :  J. R. R. Tolkien&#10;Kieli                  :  englanti&#10;Julkaistu           :  1955&#10;Kustantaja        :  Allen &amp; Unwin&#10;ISBN                 :  978-951-0-33337-2&#10;Sivumäärä        :  359&#10;Genre               :  korkea fantasia&#10;&#10;----------------------------------------------------------------------------" />
          </content>
       </ScrollPane>
    </center>

@@ -9,21 +9,10 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button mnemonicParsing="false" text="Tallenna" />
-            <Button layoutX="235.0" layoutY="18.0" mnemonicParsing="false" text="Peru" />
-        </buttons>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </ButtonBar>
-   </bottom>
    <center>
       <GridPane alignment="CENTER" prefWidth="270.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -46,15 +35,15 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField text="Täällä Pohjantähden alla" GridPane.columnIndex="1" />
+            <TextField text="Väinö Linna" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField text="suomi" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField text="1959" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField text="WSOY" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField text="9789510435724" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField text="1174" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField text="Kaunokirjallisuus" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Kirjailija" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="20.0" />
@@ -106,4 +95,24 @@
          </font>
       </Label>
    </top>
+   <bottom>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <TextField alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button mnemonicParsing="false" text="Tallenna" />
+                  <Button layoutX="235.0" layoutY="18.0" mnemonicParsing="false" text="Peru" />
+              </buttons>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </ButtonBar>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
