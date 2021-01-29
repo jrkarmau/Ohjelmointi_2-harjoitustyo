@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
@@ -90,17 +89,7 @@
          <center>
             <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <content>
-                  <VBox prefHeight="292.0" prefWidth="197.0" spacing="2.0">
-                     <children>
-                        <TextArea editable="false" prefWidth="181.0" text="Olen kirjan kohdassa 250 ja tähän mennessä voin suositella." wrapText="true">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </TextArea>
-                        <TextArea editable="false" promptText="Kirjoita kommentti" text="Taru sormusten herrasta -kirjaa on myyty yli 150 miljoonaa kappaletta, ja se on yksi myydyimmistä romaaneista kautta aikojen. Sen työstäminen alkoi Tolkienin vuoden 1937 fantasiaromaanin Hobitti eli sinne ja takaisin jatko-osana, mutta siitä tuli lopulta paljon suurempi teos." wrapText="true" />
-                        <TextArea editable="false" layoutX="10.0" layoutY="151.0" promptText="Kirjoita kommentti..." wrapText="true" />
-                     </children>
-                  </VBox>
+                  <ListChooser rivit="Ensimmäinen kommentti&#10;Kommentti kirjoitettu 10.12.20&#10;Päivitys kirjan kohdasta 140&#10;Lainaus sivulta 80&#10;alkusanat&#10;&#10;" />
                </content>
             </ScrollPane>
          </center>
