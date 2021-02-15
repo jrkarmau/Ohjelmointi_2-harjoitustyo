@@ -10,7 +10,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -24,26 +23,23 @@
         <menus>
           <Menu mnemonicParsing="false" text="Tiedosto">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Tallenna">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-              <MenuItem mnemonicParsing="false" text="Sulje">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAvaa" text="Avaa..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleTulosta" text="Tulosta..." />
+              <MenuItem mnemonicParsing="false" onAction="#handleLopeta" text="Lopeta" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Muokkaa">
             <items>
-              <MenuItem mnemonicParsing="false" text="Lisää Kirja" />
-                  <MenuItem mnemonicParsing="false" text="Poista Kirja" />
+              <MenuItem mnemonicParsing="false" onAction="#handleLisaaKirja" text="Lisää Kirja..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaKirja" text="Poista Kirja..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLisaaKommentti" text="Lisää kommentti..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePoistaKommentti" text="Poista kommentti..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Apua">
             <items>
-              <MenuItem mnemonicParsing="false" text="Tiedot" />
+              <MenuItem mnemonicParsing="false" onAction="#handleTietoja" text="Tietoja" />
             </items>
           </Menu>
         </menus>
@@ -160,8 +156,8 @@
          <left>
             <HBox spacing="15.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Lisää kirja" />
-                  <Button mnemonicParsing="false" text="Tallenna" />
+                  <Button mnemonicParsing="false" onAction="#handleLisaaKirja" text="Lisää kirja" />
+                  <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
@@ -171,8 +167,8 @@
          <right>
             <HBox spacing="15.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Lisää kommentti" />
-                  <Button mnemonicParsing="false" text="Muokkaa kommenttia" />
+                  <Button mnemonicParsing="false" onAction="#handleLisaaKommentti" text="Lisää kommentti" />
+                  <Button mnemonicParsing="false" onAction="#handleMuokkaaKommentti" text="Muokkaa kommenttia" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
