@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane  prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxKirjasto.AloitusController">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxKirjasto.AloitusController">
    <bottom>
       <VBox BorderPane.alignment="BOTTOM_CENTER">
          <children>
@@ -48,7 +48,7 @@
    <top>
       <ImageView fitHeight="181.0" fitWidth="598.0" pickOnBounds="true" BorderPane.alignment="CENTER">
          <image>
-            <Image url="@../../kuvat/etusivuKirjat.jpg" />
+            <Image url="@kuvat/etusivuKirjat.jpg" />
          </image>
       </ImageView>
    </top>

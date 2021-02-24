@@ -13,6 +13,10 @@
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="${dir.jarfile}/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Ali.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/fxgui.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Graphics.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Music.jar"/>
         </jar>
     </target>
 </project>
