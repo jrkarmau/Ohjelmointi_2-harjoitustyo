@@ -1,10 +1,23 @@
 package fxKirjasto;
 
 
+import java.io.PrintStream;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Font;
+import kirjasto.Kirja;
+import kirjasto.Kirjasto;
+import kirjasto.SailoException;
 
 /**
  * Hoitaa pääikkunaan liittyvät toiminnot
@@ -12,14 +25,30 @@ import javafx.fxml.FXML;
  * @version 15.2.2021
  *
  */
-public class KirjastoGUIController {
+public class KirjastoGUIController implements Initializable {
+    
+    @FXML private ListChooser<Kirja> chooserKirjat;
+    @FXML private ScrollPane panelKirja;             // väliaikainen
+    
+    
+    /**
+     * TODO: väliaikainen alustus
+     * Kutsuu alusta metodia 
+     * @param url url
+     * @param bundle bundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        alusta();
+    }
 
     @FXML private void handleAvaa() {
         Dialogs.showMessageDialog("Vielä ei osata avata tiedostoa");
     }
 
     @FXML private void handleLisaaKirja() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKirjaDialog.fxml"), "Lisää kirja", null, "");
+        // ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKirjaDialog.fxml"), "Lisää kirja", null, "");
+        uusiKirja();
     }
 
     @FXML private void handleLisaaKommentti() {
@@ -52,5 +81,79 @@ public class KirjastoGUIController {
 
     @FXML private void handleTulosta() {
         ModalController.showModal(KirjastoGUIController.class.getResource("TulostaView.fxml"), "Tulosta", null, "");
-    } 
+    }
+
+    
+// oma koodi alkaa ------------------------------------------------------------------------------------------------------------------------------------------
+
+    private Kirjasto kirjasto;
+    private Kirja kirjaKohdalla;
+    
+    private TextArea areaKirja = new TextArea();  // TODO: väliaikainen
+    
+    
+    /**
+     * Luo tilapäisesti väliaikaisen tekstikentän
+     * TODO: väliaikainen myös väliaikainen pane kirjastoguiview tiedostossa
+     */
+    protected void alusta() {
+        panelKirja.setContent(areaKirja);
+        areaKirja.setFont(new Font("Courier New", 12));
+        panelKirja.setFitToHeight(true);
+        
+        chooserKirjat.clear();
+        chooserKirjat.addSelectionListener(e -> naytaKirja());
+    }
+    
+    
+    private void naytaKirja() {
+        
+        kirjaKohdalla = chooserKirjat.getSelectedObject();        
+        if (kirjaKohdalla == null) return;
+        
+        areaKirja.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKirja)) {
+            kirjaKohdalla.tulosta(os);
+        }
+    }
+    
+      
+    /**
+     * Lisätään Kirjastoon uusi kirja
+     */
+    private void uusiKirja() {
+        Kirja kirja1 = new Kirja();
+        kirja1.rekisteroi();
+        kirja1.taytaKirjanTiedot(); //TODO: korvataan dialogilla
+        try {
+            kirjasto.lisaa(kirja1);
+        } catch (SailoException e) {
+          Dialogs.showMessageDialog("ongelmia uuden luomisessa " + e.getMessage());
+          return;
+        }
+        hae(kirja1.getKirjanID());
+    }
+    
+  
+    private void hae(int kirjanro) {
+        
+        chooserKirjat.clear();
+        
+        int indeksi = 0;
+        for (int i = 0; i < kirjasto.getKirjoja(); i++) {
+            Kirja kirja = kirjasto.annaKirja(i);
+            if (kirja.getKirjanID() == kirjanro) indeksi = i;
+            chooserKirjat.add(kirja.getNimi(), kirja);
+        }
+        chooserKirjat.setSelectedIndex(indeksi);  // tästä tulee muutosviesti
+    }
+    
+    
+    /**
+     * Asetetaan käytettävä kerho
+     * @param kirjasto jota käytetään 
+     */
+    public void setKirjasto(Kirjasto kirjasto) {
+        this.kirjasto = kirjasto;
+    }
 }

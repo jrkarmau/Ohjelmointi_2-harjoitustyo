@@ -3,8 +3,9 @@ package fxKirjasto;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import kirjasto.Kirjasto;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
@@ -19,11 +20,19 @@ public class KirjastoMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("KirjastoGUIView.fxml"));
-			Scene scene = new Scene(root);
+			//BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("KirjastoGUIView.fxml"));
+		    final FXMLLoader ldr = new FXMLLoader(getClass().getResource("KirjastoGUIView.fxml"));  // korvattu ylempi rivi tällä
+		    final Pane root = (Pane)ldr.load();                                                     // lisätty
+		    final KirjastoGUIController kirjastoCtrl = (KirjastoGUIController)ldr.getController();  // lisätty
+			final Scene scene = new Scene(root);                                                    // lisätty final
 			scene.getStylesheets().add(getClass().getResource("kirjasto.css").toExternalForm());
 			primaryStage.setScene(scene);			
 			primaryStage.setTitle("Kirjasto");
+			
+			// omaa koodia
+			Kirjasto kirjasto = new Kirjasto();
+			kirjastoCtrl.setKirjasto(kirjasto);
+			//
 			
 	        ModalController.showModal(KirjastoGUIController.class.getResource("AloitusView.fxml"), "Valitse kirjasto", null, "");	//väliaikainen	TODO: kunnollinen aloitussivun aukaisu	
 	        primaryStage.show();
