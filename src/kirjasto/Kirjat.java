@@ -91,16 +91,30 @@ public class Kirjat {
      *      kirjat.anna(3) === kirja1; #THROWS IndexOutOfBoundsException
      *      kirjat.lisaa(kirja1); kirjat.getLkm() === 4;
      *      kirjat.lisaa(kirja1); kirjat.getLkm() === 5;
-     *      kirjat.lisaa(kirja1); #THROWS SailoException 
+     *      //kirjat.lisaa(kirja1); #THROWS SailoException // poistettu koska lisätty taulukon kasvatusmetodi
      * </pre>
      */
     public void lisaa(Kirja kirja) throws SailoException {
+        if (lkm >= alkiot.length) kasvataTaulukko();
         if (lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
         alkiot[lkm] = kirja;
         lkm++;
     }
     
     
+    /**
+     * Kasvattaa taulukon kokoa kaksinkertaiseksi
+     */
+    private void kasvataTaulukko() {
+        Kirja[] alkiotUusi = new Kirja[alkiot.length*2];
+        
+        for (int i = 0; i < alkiot.length; i++) {
+            alkiotUusi[i] = alkiot[i];
+        }
+        alkiot = alkiotUusi;
+    }
+    
+
     /**
      * Luodaan alustava taulukko
      */
