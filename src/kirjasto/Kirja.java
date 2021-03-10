@@ -31,6 +31,7 @@ public class Kirja {
     
     
     /**
+     * Pääohjelma kirja-luokan testaamiseksi
      * @param args ei käytössä
      */
     public static void main(String[] args) {
@@ -52,22 +53,18 @@ public class Kirja {
     
     
     /**
-     * Palauttaa satunnaisen luvun annetulta väliltä
-     * @param ala luvun pienin numero
-     * @param yla luvun ylin numero
-     * @return satunnainen luku
+     * Alustaa uuden kirjan
      */
-    public static int rand(int ala, int yla) {
-        double n = (yla-ala) * Math.random() + ala;
-        return (int)Math.round(n);
+    public Kirja() {
+        //
     }
     
-    
+   
     /**
      * Täyttää kirjan tiedot testitiedoilla
      */
     public void taytaKirjanTiedot() {
-        this.kirjanNimi = "kirja" + rand(1000,9999);
+        this.kirjanNimi = "kirja" + Kanta.rand(1000,9999);
         this.kirjailija = "kirjailija";
         this.kieli = "kirjan kieli";
         this.kustantaja = "kustantaja";

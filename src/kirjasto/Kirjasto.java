@@ -1,7 +1,6 @@
-/**
- * 
- */
 package kirjasto;
+
+import java.util.List;
 
 /**
  * - huolehtii Kirjat ja Kommentit - luokkien     
@@ -17,6 +16,7 @@ package kirjasto;
 public class Kirjasto {
 
     private Kirjat kirjat = new Kirjat();
+    private Kommentit kommentit = new Kommentit();
     
     
     /**
@@ -27,6 +27,7 @@ public class Kirjasto {
         
         Kirjasto kirjasto = new Kirjasto();
 
+        // kirjan testaaminen ----------------------------------
         Kirja kirja1 = new Kirja();      
         kirja1.rekisteroi();
         kirja1.taytaKirjanTiedot();
@@ -41,14 +42,59 @@ public class Kirjasto {
         } catch (SailoException e) {
             System.err.println(e.getMessage());
         }
-
+        System.out.println("======================== kirjan testit ========================");
         for (int i = 0; i < kirjasto.getKirjoja(); i++) {
             Kirja kirja = kirjasto.annaKirja(i);
             kirja.tulosta(System.out);
         }
+            
+        // kommentin testaaminen -----------------------------------    
+        Kommentit kommentit = new Kommentit();
+            
+        Kommentti kom1 = new Kommentti();
+        kom1.taytaKommentinTiedot(2);
+        Kommentti kom2 = new Kommentti();
+        kom2.taytaKommentinTiedot(1);
+        Kommentti kom3 = new Kommentti();
+        kom3.taytaKommentinTiedot(2);
+        Kommentti kom4 = new Kommentti();
+        kom4.taytaKommentinTiedot(1);
+            
+        kommentit.lisaa(kom1);
+        kommentit.lisaa(kom2);
+        kommentit.lisaa(kom3);
+        kommentit.lisaa(kom4);
+            
+        System.out.println("======================== kommentin testit ========================");
+            
+        List<Kommentti> kommentitLista = kommentit.annaKommentit(1);
+            
+        for (Kommentti kom : kommentitLista) {
+            System.out.println(kom.getKirjanID() + " ");
+            kom.tulosta(System.out);            
+        }
     }
     
     
+    /**
+     * Palauttaa listan kommenteista jotka kuuluvat kirjalle
+     * @param kirja jonka kommentit haetaan
+     * @return lista kommenteista
+     */
+    public List<Kommentti> annaKommentit(Kirja kirja) {
+        return kommentit.annaKommentit(kirja.getKirjanID());
+    }
+    
+    
+    /**
+     * Lisää uuden kommentin
+     * @param kom kommentti joka lisätään
+     */
+    public void lisaa(Kommentti kom) {
+        kommentit.lisaa(kom);
+    }
+    
+
     /**
      * Palauttaa kirjan pyydetyllä numerolla
      * @param i kirjan numero
@@ -77,12 +123,3 @@ public class Kirjasto {
         kirjat.lisaa(kirja);
     } 
 }
-
-
-
-
-
-
-
-
-

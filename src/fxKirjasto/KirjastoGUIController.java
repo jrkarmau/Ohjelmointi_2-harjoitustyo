@@ -3,6 +3,7 @@ package fxKirjasto;
 
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 import kirjasto.Kirja;
 import kirjasto.Kirjasto;
+import kirjasto.Kommentti;
 import kirjasto.SailoException;
 
 /**
@@ -52,7 +54,8 @@ public class KirjastoGUIController implements Initializable {
     }
 
     @FXML private void handleLisaaKommentti() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Lisää kommentti", null, "");
+        //ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Lisää kommentti", null, "");
+        uusiHarrastus();
     }   
 
     @FXML private void handleLopeta() {
@@ -91,12 +94,12 @@ public class KirjastoGUIController implements Initializable {
     
     private TextArea areaKirja = new TextArea();  // TODO: väliaikainen
     
-    
+ 
     /**
      * Luo tilapäisesti väliaikaisen tekstikentän
      * TODO: väliaikainen myös väliaikainen pane kirjastoguiview tiedostossa
      */
-    protected void alusta() {
+    private void alusta() {
         panelKirja.setContent(areaKirja);
         areaKirja.setFont(new Font("Courier New", 12));
         panelKirja.setFitToHeight(true);
@@ -106,15 +109,32 @@ public class KirjastoGUIController implements Initializable {
     }
     
     
-    private void naytaKirja() {
-        
+    private void naytaKirja() {        
         kirjaKohdalla = chooserKirjat.getSelectedObject();        
         if (kirjaKohdalla == null) return;
         
         areaKirja.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKirja)) {
-            kirjaKohdalla.tulosta(os);
+            tulosta(os, kirjaKohdalla);
         }
+    }
+    
+    
+    /**
+     * tulostaa kirjan tiedot sekä kommentit
+     * @param os tietovirta johon tulostetaan 
+     * @param kirja kirja jonka tiedot tulostetaan
+     */
+    private void tulosta(PrintStream os, Kirja kirja) {
+        os.println("-------------------- kirja ------------------------------");
+        kirja.tulosta(os);
+        os.println("------------------ kommentit --------------------------------");
+        List<Kommentti> kommentit = kirjasto.annaKommentit(kirja);
+        for (Kommentti kom : kommentit) {
+            kom.tulosta(os);
+        }
+        os.println("--------------------------------------------------");
+        
     }
     
       
@@ -134,9 +154,22 @@ public class KirjastoGUIController implements Initializable {
         hae(kirja1.getKirjanID());
     }
     
-  
-    private void hae(int kirjanro) {
+    
+    /**
+     * Luo uuden harrastuksen testaamista varten
+     */
+    public void uusiHarrastus() {
+        if (kirjaKohdalla == null) return;
+        Kommentti kom = new Kommentti();
+        kom.rekisteroi();
+        kom.taytaKommentinTiedot(kirjaKohdalla.getKirjanID());
+        kirjasto.lisaa(kom);
+        hae(kirjaKohdalla.getKirjanID()); 
         
+    }
+    
+    
+    private void hae(int kirjanro) {        
         chooserKirjat.clear();
         
         int indeksi = 0;
