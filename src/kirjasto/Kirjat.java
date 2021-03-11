@@ -91,7 +91,12 @@ public class Kirjat {
      *      kirjat.anna(3) === kirja1; #THROWS IndexOutOfBoundsException
      *      kirjat.lisaa(kirja1); kirjat.getLkm() === 4;
      *      kirjat.lisaa(kirja1); kirjat.getLkm() === 5;
-     *      //kirjat.lisaa(kirja1); #THROWS SailoException // poistettu koska lisätty taulukon kasvatusmetodi
+     *      Kirja kirja6 = new Kirja();
+     *      kirjat.lisaa(kirja6); kirjat.getLkm() === 6;
+     *      kirjat.taulukonKoko() === 10;
+     *      kirjat.lisaa(kirja6); kirjat.lisaa(kirja6); kirjat.lisaa(kirja6);
+     *      kirjat.lisaa(kirja6); kirjat.lisaa(kirja6);
+     *      kirjat.taulukonKoko() === 20;
      * </pre>
      */
     public void lisaa(Kirja kirja) throws SailoException {
@@ -112,6 +117,14 @@ public class Kirjat {
             alkiotUusi[i] = alkiot[i];
         }
         alkiot = alkiotUusi;
+    }
+    
+    /**
+     * Palauttaa kirjataulukon koon.
+     * @return taulukon koko
+     */
+    public int taulukonKoko() {
+        return alkiot.length;
     }
     
 
