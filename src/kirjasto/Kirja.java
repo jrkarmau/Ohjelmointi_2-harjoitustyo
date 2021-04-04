@@ -3,6 +3,8 @@ package kirjasto;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  *  Kirja luokka Kirjasto sovellusta varten
  * - tietää kirjan  kentät (nimi, kirjailija, kieli, genre jne.)
@@ -74,6 +76,45 @@ public class Kirja {
     
     
     /**
+     * @param rivi rivi josta jäsenen tiedot otetaan¨
+     * @example
+     * <pre name="test">
+     *  Kirja kirja = new Kirja();
+     *  kirja.parse("2  |  Taru sormusten herrasta  |  J R Tolkien  ");
+     *  kirja.getKirjanID() === 2;
+     *  kirja.toString().startsWith("2|Taru sormusten herrasta|J R Tolkien|") === true;
+     *  
+     *  kirja.rekisteroi();
+     *  int n = kirja.getKirjanID();
+     *  kirja.parse("" + (n+20));
+     *  kirja.rekisteroi();
+     *  kirja.getKirjanID() === n+20+1;
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuilder sb = new StringBuilder(rivi);
+        setID(Mjonot.erota(sb, '|', getKirjanID()));
+         kirjanNimi  = Mjonot.erota(sb, '|', kirjanNimi);
+         kirjailija  = Mjonot.erota(sb, '|', kirjailija);  
+         kieli       = Mjonot.erota(sb, '|', kieli);
+         kustantaja  = Mjonot.erota(sb, '|', kustantaja);
+         julkaistu   = Mjonot.erota(sb, '|', julkaistu);
+         isbn        = Mjonot.erota(sb, '|', isbn);
+         genre       = Mjonot.erota(sb, '|', genre);
+    }
+    
+    
+    /**
+     * Asettaa kirjalle id:n ja samalla varmistaa että seuraava id on aina suurempi kuin aikaisempi id
+     * @param id asetettava id-numero
+     */
+    private void setID(int id) {
+        kirjaID = id;
+        if (kirjaID >= seuraavaID) seuraavaID = kirjaID + 1;
+    }
+    
+
+    /**
      * antaa kirjalle seuraavan ID:n
      * @return kirjan id numero
      * @example
@@ -95,6 +136,24 @@ public class Kirja {
     }
     
     
+    
+    /**
+     * Muuttaa kirjan tiedot tiedostoon kirjoitettavaan muotoon
+     */
+    @Override
+    public String toString() {
+        return "" +
+               getKirjanID() + "|" +
+               kirjanNimi    + "|" +
+               kirjailija    + "|" +
+               kieli         + "|" +
+               kustantaja    + "|" +
+               julkaistu     + "|" +
+               isbn          + "|" +
+               genre         + "|";         
+    }
+
+
     /**
      * Palauttaa kirjan id numeron
      * @return kirjan id

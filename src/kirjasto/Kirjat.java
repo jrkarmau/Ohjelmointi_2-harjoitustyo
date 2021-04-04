@@ -1,5 +1,12 @@
 package kirjasto;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
+
 /**
  * - pitää yllä varsinaista kirjarekisteriä, eli osaa 
  *   lisätä ja poistaa kirjan                         
@@ -23,6 +30,12 @@ public class Kirjat {
     public static void main(String[] args) {
         
         Kirjat kirjat = new Kirjat();
+        
+        try {
+            kirjat.lueTiedostosta("kirjasto");
+        } catch (SailoException ex) {
+            System.err.println(ex.getMessage());
+        }
 
         Kirja kirja1 = new Kirja();      
         kirja1.rekisteroi();
@@ -40,13 +53,68 @@ public class Kirjat {
             
             for (int i = 0; i < kirjat.getLkm(); i++) {
                 Kirja kirja = kirjat.anna(i);
-                System.out.println("kirjan ID " + i);
+                System.out.println("kirjan indeksi " + i);
                 kirja.tulosta(System.out);
             }  
         } catch (SailoException e) {
             System.err.println(e.getMessage());
         }
+        
+        try {
+            kirjat.tallenna("kirjasto");
+        } catch (SailoException e) {
+            e.printStackTrace();
+        }
+        
     }
+    
+
+    /**
+     * Lukee kirjaston tiedostosta
+     * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos lukeminen epäonnistuu
+     */
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+    
+    String nimi = hakemisto + "/nimet.dat";
+    File ftied = new File(nimi);
+        
+    try (Scanner fi = new Scanner(new FileInputStream(ftied))) {
+        while (fi.hasNext()) {
+            String s = "";
+            s = fi.nextLine();
+            Kirja kirja = new Kirja();
+            kirja.parse(s);
+            lisaa(kirja);
+        }
+    } catch (FileNotFoundException e) {
+            throw new SailoException("Ei saa luettua tiedostoa " + nimi);
+      }    
+    }
+    
+    
+    /**
+     * Tallentaa kirjaston tiedostoon
+     * tiedoston muoto on:
+     * <pre>
+     * 1|Seitsemän veljestä|Aleksis Kivi|suomi|otava|1878|000-0000-00-0|draama
+     * 2|Rautatie|Juhani aho|suomi|WSOY|1884|000-0000-12-1|draama
+     * </pre>
+     * @param tiedostonNimi tallennettavan tiedoston nimi
+     * @throws SailoException jos tallennus epäonnistuu
+     */
+    public void tallenna(String tiedostonNimi ) throws SailoException {
+        File ftied = new File(tiedostonNimi + "/nimet.dat");
+        try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
+            for (int i = 0; i < getLkm(); i++) {
+                Kirja kirja = anna(i);
+                fo.println(kirja.toString());
+            }
+        } catch (FileNotFoundException ex) {
+            throw new SailoException("Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
+        }
+    }
+    
      
     
     /**
