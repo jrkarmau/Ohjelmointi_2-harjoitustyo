@@ -3,6 +3,8 @@ package kirjasto;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * - tietää kommentin kentät (otsikko, pvm..)  
  * - osaa muuttaa 4|kirjanmerkki3|tällä sivul..  
@@ -30,6 +32,55 @@ public class Kommentti {
         Kommentti kom1 = new Kommentti();
         kom1.taytaKommentinTiedot(1);
         kom1.tulosta(System.out);
+    }
+    
+    
+    /**
+     * @param rivi rivi josta kommentin tiedot otetaan
+     * @example
+     * <pre name="test">
+     *  Kommentti kommentti = new Kommentti();
+     *  kommentti.parse("4  | 2 |  otsikko212  |  tekstiätekstiä  ");
+     *  kommentti.getKommentinID() === 4;
+     *  kommentti.toString().startsWith("4|2|otsikko212|tekstiätekstiä|") === true;
+     *  
+     *  kommentti.rekisteroi();
+     *  int n = kommentti.getKommentinID();
+     *  kommentti.parse("" + (n+20));
+     *  kommentti.rekisteroi();
+     *  kommentti.getKommentinID() === n+20+1;
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuilder sb = new StringBuilder(rivi);
+        setID(Mjonot.erota(sb, '|', getKommentinID()));
+        kirjaID  = Mjonot.erota(sb, '|', getKirjanID());
+        otsikko  = Mjonot.erota(sb, '|', otsikko);
+        teksti   = Mjonot.erota(sb, '|', teksti);  
+
+    }
+    
+    
+    /**
+     * Asettaa kommentille id:n ja samalla varmistaa että seuraava id on aina suurempi kuin aikaisempi id 
+     * @param id asetettava id-numero
+     */
+    private void setID(int id) {
+        kommenttiID = id;
+        if (kommenttiID >= seuraavaID) seuraavaID = kommenttiID + 1;   
+    } 
+    
+    
+    /**
+     * Muuttaa kommentin tiedot tiedostoon kirjoitettavaan muotoon
+     */
+    @Override
+    public String toString() {
+        return "" +
+               getKommentinID() + "|" +
+               getKirjanID()    + "|" +
+               otsikko          + "|" +
+               teksti           + "|";              
     }
     
     
