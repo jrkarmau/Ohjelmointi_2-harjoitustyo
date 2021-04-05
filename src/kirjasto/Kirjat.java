@@ -18,56 +18,58 @@ import java.util.Scanner;
  *
  */
 public class Kirjat {
-    
+
     private static final int MAX_KIRJOJA = 5;
     private int lkm = 0;
     private Kirja[] alkiot;
-    
+    private String tiedostonPerusNimi = "";
+
     /**
      * Pääohjelma kirjat-luokan metodien käyttämiseksi
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        
+
         Kirjat kirjat = new Kirjat();
-        
+
         try {
             kirjat.lueTiedostosta("kirjasto");
         } catch (SailoException ex) {
             System.err.println(ex.getMessage());
         }
 
-        Kirja kirja1 = new Kirja();      
+        Kirja kirja1 = new Kirja();
         kirja1.rekisteroi();
         kirja1.taytaKirjanTiedot();
-        
-        Kirja kirja2 = new Kirja();   
+
+        Kirja kirja2 = new Kirja();
         kirja2.rekisteroi();
         kirja2.taytaKirjanTiedot();
-        
+
         try {
             kirjat.lisaa(kirja1);
             kirjat.lisaa(kirja2);
-            
-            System.out.println("=============================== Kirjat testi ===============================");
-            
+
+            System.out.println(
+                    "=============================== Kirjat testi ===============================");
+
             for (int i = 0; i < kirjat.getLkm(); i++) {
                 Kirja kirja = kirjat.anna(i);
                 System.out.println("kirjan indeksi " + i);
                 kirja.tulosta(System.out);
-            }  
+            }
         } catch (SailoException e) {
             System.err.println(e.getMessage());
         }
-        
+
         try {
             kirjat.tallenna("kirjasto");
         } catch (SailoException e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
 
     /**
      * Lukee kirjaston tiedostosta
@@ -75,24 +77,49 @@ public class Kirjat {
      * @throws SailoException jos lukeminen epäonnistuu
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
-    
-    String nimi = hakemisto + "/nimet.dat";
-    File ftied = new File(nimi);
-        
-    try (Scanner fi = new Scanner(new FileInputStream(ftied))) {
-        while (fi.hasNext()) {
-            String s = "";
-            s = fi.nextLine();
-            Kirja kirja = new Kirja();
-            kirja.parse(s);
-            lisaa(kirja);
+        setTiedostonPerusNimi(hakemisto); 
+
+        try (Scanner fi = new Scanner(new FileInputStream(getTiedostonPerusNimi()))) {
+            while (fi.hasNext()) {
+                String s = "";
+                s = fi.nextLine();
+                Kirja kirja = new Kirja();
+                kirja.parse(s);
+                lisaa(kirja);
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
         }
-    } catch (FileNotFoundException e) {
-            throw new SailoException("Ei saa luettua tiedostoa " + nimi);
-      }    
     }
-    
-    
+
+
+    /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
+
+
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonPerusNimi() {
+        return tiedostonPerusNimi;
+    }
+
+
+    /**
+     * Asettaa tiedoston perusnimen ilman tarkenninta
+     * @param nimi tallennustiedoston perusnimi
+     */
+    public void setTiedostonPerusNimi(String nimi) {
+        tiedostonPerusNimi = nimi;
+    }
+
+
     /**
      * Tallentaa kirjaston tiedostoon
      * tiedoston muoto on:
@@ -103,20 +130,30 @@ public class Kirjat {
      * @param tiedostonNimi tallennettavan tiedoston nimi
      * @throws SailoException jos tallennus epäonnistuu
      */
-    public void tallenna(String tiedostonNimi ) throws SailoException {
-        File ftied = new File(tiedostonNimi + "/nimet.dat");
-        try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
+    public void tallenna(String tiedostonNimi) throws SailoException {
+        File ftied = new File(tiedostonNimi);
+        try (PrintStream fo = new PrintStream(
+                new FileOutputStream(ftied, false))) {
             for (int i = 0; i < getLkm(); i++) {
                 Kirja kirja = anna(i);
                 fo.println(kirja.toString());
             }
         } catch (FileNotFoundException ex) {
-            throw new SailoException("Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
+            throw new SailoException(
+                    "Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
         }
     }
     
-     
     
+    /**
+     * Tallentaa tiedoston perusnimellä
+     * @throws SailoException jos tallennus ei onnistu
+     */
+    public void tallenna() throws SailoException {
+        tallenna(tiedostonPerusNimi);
+    }
+
+
     /**
      * palauttaa alkiotaulukon paikassa i olevan alkion viitteen
      * @param i alkion paikka taulukossa
@@ -124,11 +161,12 @@ public class Kirjat {
      * @return viite kirjaan
      */
     public Kirja anna(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || lkm <= i) throw new IndexOutOfBoundsException("laiton indeksi: " + i);
+        if (i < 0 || lkm <= i)
+            throw new IndexOutOfBoundsException("laiton indeksi: " + i);
         return alkiot[i];
     }
-    
-    
+
+
     /**
      * Palauttaa alkiotaulukon kirjojen lukumäärän
      * @return kirjoejn lukumäärä
@@ -136,7 +174,7 @@ public class Kirjat {
     public int getLkm() {
         return lkm;
     }
-    
+
 
     /**
      * Lisää uuden kirjan kirjataulukkoon
@@ -168,25 +206,28 @@ public class Kirjat {
      * </pre>
      */
     public void lisaa(Kirja kirja) throws SailoException {
-        if (lkm >= alkiot.length) kasvataTaulukko();
-        if (lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
+        if (lkm >= alkiot.length)
+            kasvataTaulukko();
+        if (lkm >= alkiot.length)
+            throw new SailoException("Liikaa alkioita");
         alkiot[lkm] = kirja;
         lkm++;
     }
-    
-    
+
+
     /**
      * Kasvattaa taulukon kokoa kaksinkertaiseksi
      */
     private void kasvataTaulukko() {
-        Kirja[] alkiotUusi = new Kirja[alkiot.length*2];
-        
+        Kirja[] alkiotUusi = new Kirja[alkiot.length * 2];
+
         for (int i = 0; i < alkiot.length; i++) {
             alkiotUusi[i] = alkiot[i];
         }
         alkiot = alkiotUusi;
     }
-    
+
+
     /**
      * Palauttaa kirjataulukon koon.
      * @return taulukon koko
@@ -194,7 +235,7 @@ public class Kirjat {
     public int taulukonKoko() {
         return alkiot.length;
     }
-    
+
 
     /**
      * Luodaan alustava taulukko

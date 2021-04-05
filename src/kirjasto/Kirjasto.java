@@ -1,5 +1,6 @@
 package kirjasto;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -73,6 +74,58 @@ public class Kirjasto {
             System.out.println(kom.getKirjanID() + " ");
             kom.tulosta(System.out);            
         }
+    }
+    
+
+    /**
+     * Lukee kirjaston tiedot tiedostosta
+     * @param nimi  jota käytetään lukemisessa
+     * @throws SailoException jos lukeminen epäonnistuu
+     */
+    public void lueTiedostosta(String nimi) throws SailoException {
+        kirjat = new Kirjat();
+        kommentit = new Kommentit();
+        
+        setTiedosto(nimi);
+        kirjat.lueTiedostosta();
+        kommentit.lueTiedostosta();
+    }
+    
+    
+    /**
+     * Tallentaa kirjaston tiedot tiedostoon
+     * Yritetään tallentaa kirjat ja kommentit ennen
+     * poikkeuksen heittämistä
+     * @throws SailoException jos tallentaminen ei onnistu
+     */
+    public void tallenna() throws SailoException {
+        String virhe = "";
+        try {
+            kirjat.tallenna();
+        } catch (SailoException ex) {
+            virhe = ex.getMessage();
+        }
+        
+        try {
+            kommentit.tallenna();
+        } catch (SailoException ex) {
+            virhe += ex.getMessage();
+        }
+        if (!"".equals(virhe)) throw new SailoException(virhe);
+    }
+    
+    
+    /**
+     * Asettaa tiedostojen perusnimet
+     * @param nimi uusi nimi
+     */
+    public void setTiedosto(String nimi) {
+        File dir = new File(nimi);
+        dir.mkdirs();
+        String hakemistonNimi = "";
+        if (!nimi.isEmpty()) hakemistonNimi = nimi + "/";
+        kirjat.setTiedostonPerusNimi(hakemistonNimi + "kirjat.dat");
+        kommentit.setTiedostonPerusNimi(hakemistonNimi + "kommentit.dat");
     }
     
     

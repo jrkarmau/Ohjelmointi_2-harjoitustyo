@@ -29,12 +29,13 @@ public class KirjastoMain extends Application {
 			primaryStage.setScene(scene);			
 			primaryStage.setTitle("Kirjasto");
 			
-			// omaa koodia
+			
 			Kirjasto kirjasto = new Kirjasto();
 			kirjastoCtrl.setKirjasto(kirjasto);
-			//
+			
 			
 	        ModalController.showModal(KirjastoGUIController.class.getResource("AloitusView.fxml"), "Valitse kirjasto", null, "");	//väliaikainen	TODO: kunnollinen aloitussivun aukaisu	
+	        kirjastoCtrl.lueTiedosto("kirjasto");
 	        primaryStage.show();
 			
 		} catch(Exception e) {
