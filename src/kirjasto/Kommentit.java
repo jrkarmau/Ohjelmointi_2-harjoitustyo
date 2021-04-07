@@ -60,8 +60,6 @@ public class Kommentit {
         System.out.println("======================== kommentin testit ========================");
         
         
-
-        
        List<Kommentti> kommentitLista = kommentit.annaKommentit(1);
         for (Kommentti kom : kommentitLista) {
             System.out.println(kom.getKirjanID() + " ");
