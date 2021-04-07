@@ -23,7 +23,7 @@ import java.util.Scanner;
 public class Kommentit {
     
     private Collection<Kommentti> alkiot = new ArrayList<Kommentti>();
-
+    private String tiedostonPerusNimi = "";
     
     /**
      * Pääohjelma harrastuksen testaamiseksi
@@ -59,7 +59,11 @@ public class Kommentit {
         
         System.out.println("======================== kommentin testit ========================");
         
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> a9071fc47f06afabaef7c80bd57f1a9c477733a9
        List<Kommentti> kommentitLista = kommentit.annaKommentit(1);
         for (Kommentti kom : kommentitLista) {
             System.out.println(kom.getKirjanID() + " ");
@@ -76,16 +80,41 @@ public class Kommentit {
     
     
     /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
+
+
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonPerusNimi() {
+        return tiedostonPerusNimi;
+    }
+
+
+    /**
+     * Asettaa tiedoston perusnimen ilman tarkenninta
+     * @param nimi tallennustiedoston perusnimi
+     */
+    public void setTiedostonPerusNimi(String nimi) {
+        tiedostonPerusNimi = nimi;
+    }
+    
+    
+    /**
      * Lukee kirjan kommentit tiedostosta
      * @param hakemisto tiedoston hakemisto
      * @throws SailoException jos lukeminen epäonnistuu
      */
     public void lueTiedostosta(String hakemisto) throws SailoException {
+        setTiedostonPerusNimi(hakemisto);
 
-        String nimi = hakemisto + "/kommentit.dat";
-        File ftied = new File(nimi);
-
-        try (Scanner fi = new Scanner(new FileInputStream(ftied))) {
+        try (Scanner fi = new Scanner(new FileInputStream(getTiedostonPerusNimi()))) {
             while (fi.hasNext()) {
                 String s = "";
                 s = fi.nextLine();
@@ -94,7 +123,7 @@ public class Kommentit {
                 lisaa(kommentti);
             }
         } catch (FileNotFoundException e) {
-            throw new SailoException("Ei saa luettua tiedostoa " + nimi);
+            throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
         }
     }
     
@@ -110,7 +139,7 @@ public class Kommentit {
      * @throws SailoException jos tallennus epäonnistuu
      */
     public void tallenna(String tiedostonNimi) throws SailoException {
-        File ftied = new File(tiedostonNimi + "/kommentit.dat");
+        File ftied = new File(tiedostonNimi);
         try (PrintStream fo = new PrintStream(
                 new FileOutputStream(ftied, false))) {
             for (Kommentti kom : alkiot) {
@@ -119,6 +148,15 @@ public class Kommentit {
         } catch (FileNotFoundException ex) {
             throw new SailoException( "Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
         }
+    }
+    
+    
+    /**
+     * Tallentaa tiedoston perusnimellä
+     * @throws SailoException jos tallennus ei onnistu
+     */
+    public void tallenna() throws SailoException {
+        tallenna(tiedostonPerusNimi);
     }
 
     

@@ -75,7 +75,7 @@ public class KirjastoGUIController implements Initializable {
     }
 
     @FXML private void handleTallenna() {
-        Dialogs.showMessageDialog("Vielä ei osata tallentaa");
+        tallenna();
     }
 
     @FXML private void handleTietoja() {
@@ -91,6 +91,7 @@ public class KirjastoGUIController implements Initializable {
 
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
+    private String kirjastonNimi = "";
     
     private TextArea areaKirja = new TextArea();  // TODO: väliaikainen
     
@@ -134,10 +135,44 @@ public class KirjastoGUIController implements Initializable {
             kom.tulosta(os);
         }
         os.println("--------------------------------------------------");
-        
     }
     
-      
+
+    /**
+     * Alustaa kirjaston lukemalla sen valitun nimisestä tiedostosta
+     * @param nimi tiedosto josta kirjaston tiedot luetaan
+     * @return null jo sonnistuu, muuten virhe-viesti
+     */
+    protected String lueTiedosto(String nimi) {
+        kirjastonNimi = nimi;
+        //setTitle("Kirjastosi " + kirjastonNimi);  TODO: aseta tittle
+        try {
+            kirjasto.lueTiedostosta(nimi);
+            hae(0);
+            return null;
+        } catch (SailoException e) {
+            hae(0);
+            String virhe = e.getMessage();
+            if (virhe != null) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
+    }
+    
+    /**
+     * Tietojen tallennus
+     * @return null jos onnistuu, muuten virhe-ilmoitus
+     */
+    private String tallenna() {
+        try {
+            kirjasto.tallenna();
+            return null;
+        } catch ( SailoException e) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + e.getMessage());
+            return e.getMessage();
+        }
+    }
+    
+    
     /**
      * Lisätään Kirjastoon uusi kirja
      */
