@@ -191,4 +191,14 @@ public class Kirja {
     public String getNimi() {
         return kirjanNimi;
     }
+    
+    
+    /**
+     * Palauttaa kirjan kentän sen paikan perusteella
+     * @param i monesko kirjan kenttä
+     * @return kirjan kentän tiedot
+     */
+    public String getKentta(int i) {
+        // TODO:
+    }
 }

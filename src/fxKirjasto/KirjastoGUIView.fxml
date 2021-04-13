@@ -33,6 +33,8 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleLisaaKirja" text="Lisää Kirja..." />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaKirja" text="Poista Kirja..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaKirja" text="Muokkaa kirjaa..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleMuokkaaKommentti" text="Muokkaa kommenttia..." />
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaKommentti" text="Lisää kommentti..." />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaKommentti" text="Poista kommentti..." />
             </items>

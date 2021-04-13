@@ -13,7 +13,7 @@
 
 <BorderPane prefHeight="250.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxKirjasto.LisaaKommenttiController">
    <top>
-      <Label text="Kirjoita Kommentti" BorderPane.alignment="CENTER">
+      <Label text="Täydennä kommentti" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </BorderPane.margin>

@@ -62,8 +62,13 @@ public class KirjastoGUIController implements Initializable {
         Platform.exit();
     }
 
+    @FXML private void handleMuokkaaKirja() {
+        muokkaaKirja();
+    }
+
+    
     @FXML private void handleMuokkaaKommentti() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Lisää kommentti", null, "");
+        muokkaaKommentti();
     }
 
     @FXML private void handlePoistaKirja() {
@@ -91,7 +96,7 @@ public class KirjastoGUIController implements Initializable {
 
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
-    private String kirjastonNimi = "";
+    private String kirjastonNimi = "";  // TODO: käytä
     
     private TextArea areaKirja = new TextArea();  // TODO: väliaikainen
     
@@ -118,6 +123,15 @@ public class KirjastoGUIController implements Initializable {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKirja)) {
             tulosta(os, kirjaKohdalla);
         }
+    }
+    
+    private void muokkaaKirja() {
+        LisaaKirjaController.kysyKirja(null, kirjaKohdalla);
+    }
+    
+    
+    private void muokkaaKommentti() {
+        ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Muokkaa kommenttia", null, "");
     }
     
     
