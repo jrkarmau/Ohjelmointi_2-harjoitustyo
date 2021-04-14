@@ -87,7 +87,7 @@
          <center>
             <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <content>
-                  <ListChooser rivit="" />
+                  <ListChooser fx:id="chooserKommentit" rivit="" />
                </content>
             </ScrollPane>
          </center>
@@ -105,7 +105,7 @@
             </Label>
          </top>
          <center>
-            <ScrollPane fx:id="panelKirja" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
+            <ScrollPane fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
                <content>
                   <GridPane hgap="10.0">
                     <columnConstraints>
@@ -134,18 +134,18 @@
                         <Label text="Julkaistu" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Kustantaja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label text="ISBN" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+                        <TextField fx:id="editNimi" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
+                        <TextField fx:id="editKirjailija" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                        <TextField fx:id="editKieli" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                        <TextField fx:id="editJulkaistu" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                        <TextField fx:id="editKustantaja" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                        <TextField fx:id="editISBN" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
+                        <TextField fx:id="editSivumaara" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
                         <Label text="Nimi" GridPane.columnIndex="1" />
                         <Label text="Kirjailija" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Sivumäärä" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <Label text="Genre" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <TextField editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
+                        <TextField fx:id="editGenre" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                </content>

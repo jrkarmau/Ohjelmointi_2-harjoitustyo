@@ -125,6 +125,24 @@ public class Kommentti {
     
     
     /**
+     * Palauttaa kommentin otsikon
+     * @return kommentin otsikko
+     */
+    public String getOtsikko() {
+        return otsikko;
+    }
+    
+    
+    /**
+     * Palauttaa kommentin sisällön
+     * @return kommentin sisältö
+     */
+    public String getSisältö() {
+        return teksti;
+    }
+    
+    
+    /**
      * Tulostaa kommentin tiedot tietovirtaan
      * @param out tietovirta johon tulostetaan
      */

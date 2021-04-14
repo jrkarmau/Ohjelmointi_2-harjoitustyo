@@ -1,21 +1,16 @@
 package fxKirjasto;
 
 
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
-import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.Font;
+import javafx.scene.control.TextField;
 import kirjasto.Kirja;
 import kirjasto.Kirjasto;
 import kirjasto.Kommentti;
@@ -30,7 +25,15 @@ import kirjasto.SailoException;
 public class KirjastoGUIController implements Initializable {
     
     @FXML private ListChooser<Kirja> chooserKirjat;
-    @FXML private ScrollPane panelKirja;             // väliaikainen
+    @FXML private ListChooser<Kommentti> chooserKommentit;
+    @FXML private TextField editNimi;
+    @FXML private TextField editKirjailija;
+    @FXML private TextField editKieli;
+    @FXML private TextField editJulkaistu;
+    @FXML private TextField editKustantaja;
+    @FXML private TextField editISBN;
+    @FXML private TextField editSivumaara;
+    @FXML private TextField editGenre;
     
     
     /**
@@ -97,33 +100,38 @@ public class KirjastoGUIController implements Initializable {
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
     private String kirjastonNimi = "";  // TODO: käytä
-    
-    private TextArea areaKirja = new TextArea();  // TODO: väliaikainen
-    
+    private TextField[] edits;
+        
  
     /**
-     * Luo tilapäisesti väliaikaisen tekstikentän
-     * TODO: väliaikainen myös väliaikainen pane kirjastoguiview tiedostossa
+     * Tyhjentää kirja ja kommenttivalitsimet sekä tekstikentät 
      */
-    private void alusta() {
-        panelKirja.setContent(areaKirja);
-        areaKirja.setFont(new Font("Courier New", 12));
-        panelKirja.setFitToHeight(true);
-        
+    private void alusta() {        
         chooserKirjat.clear();
         chooserKirjat.addSelectionListener(e -> naytaKirja());
+        edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
+                                 editKustantaja, editISBN, editSivumaara, editGenre};
     }
     
     
     private void naytaKirja() {        
         kirjaKohdalla = chooserKirjat.getSelectedObject();        
         if (kirjaKohdalla == null) return;
-        
-        areaKirja.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKirja)) {
-            tulosta(os, kirjaKohdalla);
+        LisaaKirjaController.naytaKirja(edits, kirjaKohdalla);
+        naytaKommentit(kirjaKohdalla);
+    }
+    
+    
+    private void naytaKommentit(Kirja kirja) {
+        chooserKommentit.clear();
+        if (kirja == null) return;
+        List<Kommentti> kommentit = kirjasto.annaKommentit(kirja); 
+        if (kommentit.size() == 0) return;
+        for (Kommentti kom : kommentit) {
+            chooserKommentit.add(kom.getOtsikko(), kom);
         }
     }
+    
     
     private void muokkaaKirja() {
         LisaaKirjaController.kysyKirja(null, kirjaKohdalla);
@@ -132,23 +140,6 @@ public class KirjastoGUIController implements Initializable {
     
     private void muokkaaKommentti() {
         ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Muokkaa kommenttia", null, "");
-    }
-    
-    
-    /**
-     * tulostaa kirjan tiedot sekä kommentit
-     * @param os tietovirta johon tulostetaan 
-     * @param kirja kirja jonka tiedot tulostetaan
-     */
-    private void tulosta(PrintStream os, Kirja kirja) {
-        os.println("-------------------- kirja ------------------------------");
-        kirja.tulosta(os);
-        os.println("------------------ kommentit --------------------------------");
-        List<Kommentti> kommentit = kirjasto.annaKommentit(kirja);
-        for (Kommentti kom : kommentit) {
-            kom.tulosta(os);
-        }
-        os.println("--------------------------------------------------");
     }
     
 
@@ -171,6 +162,7 @@ public class KirjastoGUIController implements Initializable {
             return virhe;
         }
     }
+    
     
     /**
      * Tietojen tallennus

@@ -31,6 +31,7 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     @FXML private TextField editISBN;
     @FXML private TextField editSivumaara;
     @FXML private TextField editGenre;
+    private TextField[] edits;
     
     
     @FXML private void handlePeru() {
@@ -61,9 +62,17 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
+        alusta();
         
-    }   
+    } 
+    
+    /**
+     * Alustaa uuden textfield taulukon käynnistyessä
+     */
+    private void alusta() {        
+        edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
+                                 editKustantaja, editISBN, editSivumaara, editGenre};
+    }
     
     
     
@@ -77,17 +86,31 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
       return ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKirjaDialog.fxml"), "Muokkaa kirjaa", modalitystage, oletusTieto);
     }
     
-    
+    /**
+     * Näyttää kirjan tiedot editkentissä
+     * @param kirja kirja jonka tiedot näytetään
+     */
     private void naytaKirja(Kirja kirja) {
+        naytaKirja(edits, kirja);
+    }
+    
+    
+    /**
+     * Lisätään kirjan tiedot taulukolliseen edit kenttiä
+     * @param edits editkentät joihin tietotallennetaan
+     * @param kirja kirja jonka tiedot näytetään
+     */
+    public static void naytaKirja(TextField[] edits, Kirja kirja) {
         if (kirja == null) return;
-        editNimi.setText(kirja.getNimi());
-        editKirjailija.setText()      
-        editKieli.setText()           
-        editJulkaistu.setText()       
-        editKustantaja.setText()      
-        editISBN.setText()            
-        editSivumaara.setText()       
-        editGenre.setText()           
+        edits[0].setText(kirja.getKentta(0));
+        edits[1].setText(kirja.getKentta(1));
+        edits[2].setText(kirja.getKentta(2));
+        edits[3].setText(kirja.getKentta(3));
+        edits[4].setText(kirja.getKentta(4));
+        edits[5].setText(kirja.getKentta(5));
+        edits[6].setText(kirja.getKentta(6));
+        edits[7].setText(kirja.getKentta(7));
+        
     }
 
     

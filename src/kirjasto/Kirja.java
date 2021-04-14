@@ -28,6 +28,7 @@ public class Kirja {
     private String kustantaja  = "";
     private String julkaistu   = "";
     private String isbn        = "";
+    private int    sivumaara;
     private String genre       = "";
     private static int seuraavaID = 1;
     
@@ -71,6 +72,7 @@ public class Kirja {
         this.kieli = "kirjan kieli";
         this.kustantaja = "kustantaja";
         this.julkaistu = "julkaisuvuosi";
+        this.sivumaara = 100;
         this.isbn = "000-0000-00-0";
     }
     
@@ -100,6 +102,7 @@ public class Kirja {
          kustantaja  = Mjonot.erota(sb, '|', kustantaja);
          julkaistu   = Mjonot.erota(sb, '|', julkaistu);
          isbn        = Mjonot.erota(sb, '|', isbn);
+         sivumaara   = Mjonot.erota(sb, '|', sivumaara);
          genre       = Mjonot.erota(sb, '|', genre);
     }
     
@@ -150,6 +153,7 @@ public class Kirja {
                kustantaja    + "|" +
                julkaistu     + "|" +
                isbn          + "|" +
+               sivumaara     + "|" +
                genre         + "|";         
     }
 
@@ -171,7 +175,7 @@ public class Kirja {
         out.println(String.format("%03d", kirjaID));
         out.println(kirjanNimi + " " + kirjailija );
         out.println(kieli + " " + kustantaja);
-        out.println(julkaistu + " " + genre + " " + isbn + "\n");        
+        out.println(julkaistu + " " + genre + " " + sivumaara + " " + isbn + "\n");        
     }
     
     
@@ -199,6 +203,16 @@ public class Kirja {
      * @return kirjan kentän tiedot
      */
     public String getKentta(int i) {
-        // TODO:
+    switch ( i ) {
+    case 0: return "" + kirjanNimi;
+    case 1: return "" + kirjailija;
+    case 2: return "" + kieli;
+    case 3: return "" + kustantaja;
+    case 4: return "" + julkaistu;
+    case 5: return "" + isbn;
+    case 6: return "" + sivumaara;
+    case 7: return "" + genre;
+    default: return " ";
     }
+}
 }
