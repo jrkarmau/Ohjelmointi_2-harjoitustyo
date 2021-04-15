@@ -131,8 +131,8 @@
                         <Label GridPane.columnIndex="1" />
                         <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Kieli" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Julkaistu" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Kustantaja" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Kustantaja" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Julkaistu" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label text="ISBN" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <TextField fx:id="editNimi" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" />
                         <TextField fx:id="editKirjailija" editable="false" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />

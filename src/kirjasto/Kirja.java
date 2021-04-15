@@ -2,7 +2,8 @@ package kirjasto;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
+import java.time.Year;
+import java.util.regex.Pattern;
 import fi.jyu.mit.ohj2.Mjonot;
 
 /**
@@ -19,14 +20,14 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 8.3.2021
  *
  */
-public class Kirja {
+public class Kirja implements Cloneable {
     
     private int    kirjaID;
     private String kirjanNimi  = "";
     private String kirjailija  = "";  
     private String kieli       = "";
     private String kustantaja  = "";
-    private String julkaistu   = "";
+    private int    julkaistu;
     private String isbn        = "";
     private int    sivumaara;
     private String genre       = "";
@@ -62,6 +63,18 @@ public class Kirja {
         //
     }
     
+    
+    /**
+     * tekee identtisen kopion kirjasta.
+     * @return kloonattu jäsen
+     */
+    @Override
+    public Kirja clone() throws CloneNotSupportedException {
+        Kirja uusi;
+        uusi = (Kirja) super.clone();
+        return uusi;
+    }
+    
    
     /**
      * Täyttää kirjan tiedot testitiedoilla
@@ -71,9 +84,10 @@ public class Kirja {
         this.kirjailija = "kirjailija";
         this.kieli = "kirjan kieli";
         this.kustantaja = "kustantaja";
-        this.julkaistu = "julkaisuvuosi";
+        this.julkaistu = 1999;
         this.sivumaara = 100;
         this.isbn = "000-0000-00-0";
+        this.genre = "Genre";
     }
     
     
@@ -198,21 +212,60 @@ public class Kirja {
     
     
     /**
+     * asettaa kentän tiedot sen paikan perusteella
+     * @param i minkä kentän tiedot lisätään
+     * @param s kentän sisältö
+     * @return virheen sisältö, null jos kaikki ok
+     */
+    public String setKentta(int i, String s) {
+        String ts = s.trim();
+        switch ( i ) {
+        case 0: kirjanNimi = ts; return null;
+        case 1: kirjailija = ts; return null;
+        case 2: kieli = ts; return null;
+        case 3: kustantaja = ts; return null;
+        case 4: return tarkistaVuosi(ts);
+        case 5: isbn = ts; return null;
+        case 6: return tarkistaSivut(ts);
+        case 7: genre = ts; return null;
+        default: return "kenttää ei ole olemassa";
+        }
+    }
+    
+
+    private String tarkistaSivut(String ts) {
+        if ("".equals(ts) || !Pattern.matches("^[0-9]*$", ts)) return "Sivumäärä ei ole oikeaa muotoa!";
+        if (Integer.parseInt(ts) < 0) return "Sivumäärä ei voi olla negatiivinen";
+        sivumaara = Integer.parseInt(ts);
+        return null;
+    }
+
+
+    private String tarkistaVuosi(String ts) {
+        Year year = Year.now();
+        if ("".equals(ts) || !Pattern.matches("^[0-9]*$", ts) ) return "Anna vuosiluku muodossa vvvv!";
+        if (Integer.parseInt(ts) < 0 || Integer.parseInt(ts) > year.getValue()) return "Vuosiluku on väärin";
+        julkaistu = Integer.parseInt(ts);
+        return null;
+    }
+    
+    
+    /**
      * Palauttaa kirjan kentän sen paikan perusteella
      * @param i monesko kirjan kenttä
      * @return kirjan kentän tiedot
      */
     public String getKentta(int i) {
     switch ( i ) {
-    case 0: return "" + kirjanNimi;
-    case 1: return "" + kirjailija;
-    case 2: return "" + kieli;
-    case 3: return "" + kustantaja;
-    case 4: return "" + julkaistu;
-    case 5: return "" + isbn;
-    case 6: return "" + sivumaara;
-    case 7: return "" + genre;
-    default: return " ";
+    case 0:  return "" + kirjanNimi;
+    case 1:  return "" + kirjailija;
+    case 2:  return "" + kieli;
+    case 3:  return "" + kustantaja;
+    case 4:  return "" + julkaistu;
+    case 5:  return "" + isbn;
+    case 6:  return "" + sivumaara;
+    case 7:  return "" + genre;
+    default: return "";
     }
 }
 }

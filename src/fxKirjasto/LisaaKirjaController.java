@@ -3,11 +3,11 @@ package fxKirjasto;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import kirjasto.Kirja;
@@ -22,7 +22,7 @@ import kirjasto.Kirja;
 public class LisaaKirjaController implements ModalControllerInterface<Kirja>, Initializable {
     
     private Kirja kirjaKohdalla;
-    @FXML private Label labelVirhe;
+    @FXML private TextField labelVirhe;
     @FXML private TextField editNimi;
     @FXML private TextField editKirjailija;
     @FXML private TextField editKieli;
@@ -35,17 +35,21 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     
     
     @FXML private void handlePeru() {
+        kirjaKohdalla = null;
         ModalController.closeStage(labelVirhe);
     }
 
     @FXML private void handleTallenna() {
+        if (kirjaKohdalla != null && kirjaKohdalla.getNimi().trim().equals("")) {
+            naytaVirhe("Nimi ei saa olla tyhjä");
+            return;
+        }
         ModalController.closeStage(labelVirhe);
     }
     
     @Override
     public Kirja getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return kirjaKohdalla;
     }
 
     @Override
@@ -72,7 +76,51 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     private void alusta() {        
         edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
                                  editKustantaja, editISBN, editSivumaara, editGenre};
+        int i = 0;
+        for (TextField edit : edits) {
+            final int k = i++;
+            edit.setOnKeyReleased(e -> kasitteleMuutosKirjaan(k, (TextField)(e.getSource())));
+        }
     }
+    
+    
+    /**
+     * käsittelee jäsenen kenttään tullut muutos
+     * @param k kentän numero
+     * @param edit muuttunut kenttä
+     */
+    private void kasitteleMuutosKirjaan(int k, TextField edit) {
+        if (kirjaKohdalla == null) return;
+        String s = edit.getText();
+        String virhe = null;
+        virhe = kirjaKohdalla.setKentta(k, s);
+        
+        if (virhe == null) {
+            Dialogs.setToolTipText(edit, "");
+            edit.getStyleClass().removeAll("virhe");
+            naytaVirhe(virhe);  
+        } else {
+            Dialogs.setToolTipText(edit, virhe);
+            edit.getStyleClass().add("virhe");
+            naytaVirhe(virhe);  
+        } 
+    }
+    
+    
+    /**
+     * Näyttää virheen dialogissa
+     * @param virhe virheen teksti
+     */
+    private void naytaVirhe(String virhe) {
+        if (virhe == null || virhe.isEmpty()) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+        //TODO: lisää punainen väri
+        }
     
     
     
@@ -110,7 +158,6 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
         edits[5].setText(kirja.getKentta(5));
         edits[6].setText(kirja.getKentta(6));
         edits[7].setText(kirja.getKentta(7));
-        
     }
 
     

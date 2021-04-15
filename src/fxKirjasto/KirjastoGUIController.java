@@ -134,7 +134,21 @@ public class KirjastoGUIController implements Initializable {
     
     
     private void muokkaaKirja() {
-        LisaaKirjaController.kysyKirja(null, kirjaKohdalla);
+        if (kirjaKohdalla == null) return;
+        Kirja kirja;
+        
+        try {
+            kirja = kirjaKohdalla.clone();
+            kirja = LisaaKirjaController.kysyKirja(null, kirja);
+            if (kirja == null) return;
+            kirjasto.korvaaTaiLisaa(kirja);
+            hae(kirja.getKirjanID());
+        } catch (CloneNotSupportedException e) {
+            System.err.println(e.getMessage() + " kloonaus ei onnistu");
+        } catch (SailoException se) {
+            System.err.println(se.getMessage() + " Ongelmia tietorakenteessa");
+        }
+
     }
     
     

@@ -23,6 +23,7 @@ public class Kirjat {
     private int lkm = 0;
     private Kirja[] alkiot;
     private String tiedostonPerusNimi = "";
+    private boolean muutettu = false;
 
     /**
      * Pääohjelma kirjat-luokan metodien käyttämiseksi
@@ -87,6 +88,7 @@ public class Kirjat {
                 kirja.parse(s);
                 lisaa(kirja);
             }
+            muutettu = false;
         } catch (FileNotFoundException e) {
             throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
         }
@@ -131,6 +133,7 @@ public class Kirjat {
      * @throws SailoException jos tallennus epäonnistuu
      */
     public void tallenna(String tiedostonNimi) throws SailoException {
+        if ( !muutettu ) return;
         File ftied = new File(tiedostonNimi);
         try (PrintStream fo = new PrintStream(
                 new FileOutputStream(ftied, false))) {
@@ -142,6 +145,7 @@ public class Kirjat {
             throw new SailoException(
                     "Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
         }
+        muutettu = false;
     }
     
     
@@ -212,8 +216,28 @@ public class Kirjat {
             throw new SailoException("Liikaa alkioita");
         alkiot[lkm] = kirja;
         lkm++;
+        muutettu = true;
     }
-
+    
+    
+    /**
+     * Korvaa kirjan tietorakenteessa. Etsitään samalla tunnusnumerolla oleva kirja
+     * ja jos ei löydy luodaan uusi.
+     * @param kirja joka korvataan
+     * @throws SailoException jos ei mahdu tietorakenteeseen
+     */
+    public void korvaaTaiLisaa(Kirja kirja) throws SailoException {
+        int id = kirja.getKirjanID();
+        for (int i = 0; i < lkm; i++) {
+            if (alkiot[i].getKirjanID() == id) {
+                alkiot[i] = kirja;
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(kirja);
+    }
+    
 
     /**
      * Kasvattaa taulukon kokoa kaksinkertaiseksi

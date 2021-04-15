@@ -54,12 +54,12 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Julkaistu" GridPane.rowIndex="3">
+            <Label text="Kustantaja" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Kustantaja" GridPane.rowIndex="4">
+            <Label text="Julkaistu" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin>
@@ -86,7 +86,7 @@
       </GridPane>
    </center>
    <top>
-      <Label fx:id="labelVirhe" text="Täydennä kirjan tiedot" BorderPane.alignment="CENTER">
+      <Label text="Täydennä kirjan tiedot" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </BorderPane.margin>
@@ -98,7 +98,7 @@
    <bottom>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <TextField alignment="CENTER">
+            <TextField fx:id="labelVirhe" alignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
