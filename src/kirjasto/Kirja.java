@@ -27,9 +27,9 @@ public class Kirja implements Cloneable {
     private String kirjailija  = "";  
     private String kieli       = "";
     private String kustantaja  = "";
-    private int    julkaistu;
+    private String julkaistu   = "";
     private String isbn        = "";
-    private int    sivumaara;
+    private String sivumaara   = "";
     private String genre       = "";
     private static int seuraavaID = 1;
     
@@ -84,8 +84,8 @@ public class Kirja implements Cloneable {
         this.kirjailija = "kirjailija";
         this.kieli = "kirjan kieli";
         this.kustantaja = "kustantaja";
-        this.julkaistu = 1999;
-        this.sivumaara = 100;
+        this.julkaistu = "1999";
+        this.sivumaara = "100";
         this.isbn = "000-0000-00-0";
         this.genre = "Genre";
     }
@@ -236,7 +236,7 @@ public class Kirja implements Cloneable {
     private String tarkistaSivut(String ts) {
         if ("".equals(ts) || !Pattern.matches("^[0-9]*$", ts)) return "Sivumäärä ei ole oikeaa muotoa!";
         if (Integer.parseInt(ts) < 0) return "Sivumäärä ei voi olla negatiivinen";
-        sivumaara = Integer.parseInt(ts);
+        sivumaara = ts;
         return null;
     }
 
@@ -245,7 +245,7 @@ public class Kirja implements Cloneable {
         Year year = Year.now();
         if ("".equals(ts) || !Pattern.matches("^[0-9]*$", ts) ) return "Anna vuosiluku muodossa vvvv!";
         if (Integer.parseInt(ts) < 0 || Integer.parseInt(ts) > year.getValue()) return "Vuosiluku on väärin";
-        julkaistu = Integer.parseInt(ts);
+        julkaistu = ts;
         return null;
     }
     

@@ -119,7 +119,6 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
         }
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
-        //TODO: lisää punainen väri
         }
     
     
@@ -133,6 +132,7 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     public static Kirja kysyKirja(Stage modalitystage, Kirja oletusTieto) {
       return ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKirjaDialog.fxml"), "Muokkaa kirjaa", modalitystage, oletusTieto);
     }
+    
     
     /**
      * Näyttää kirjan tiedot editkentissä
@@ -150,14 +150,9 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
      */
     public static void naytaKirja(TextField[] edits, Kirja kirja) {
         if (kirja == null) return;
-        edits[0].setText(kirja.getKentta(0));
-        edits[1].setText(kirja.getKentta(1));
-        edits[2].setText(kirja.getKentta(2));
-        edits[3].setText(kirja.getKentta(3));
-        edits[4].setText(kirja.getKentta(4));
-        edits[5].setText(kirja.getKentta(5));
-        edits[6].setText(kirja.getKentta(6));
-        edits[7].setText(kirja.getKentta(7));
+        for (int i = 0; i < edits.length; i++) {
+            edits[i].setText(kirja.getKentta(i));
+        }
     }
 
     

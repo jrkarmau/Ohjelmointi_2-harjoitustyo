@@ -197,16 +197,17 @@ public class KirjastoGUIController implements Initializable {
      * Lisätään Kirjastoon uusi kirja
      */
     private void uusiKirja() {
-        Kirja kirja1 = new Kirja();
-        kirja1.rekisteroi();
-        kirja1.taytaKirjanTiedot(); //TODO: korvataan dialogilla
+        
         try {
-            kirjasto.lisaa(kirja1);
+            Kirja uusi = new Kirja();
+            uusi = LisaaKirjaController.kysyKirja(null, uusi);
+            if (uusi == null) return;
+            uusi.rekisteroi();
+            kirjasto.lisaa(uusi);
+            hae(uusi.getKirjanID());
         } catch (SailoException e) {
-          Dialogs.showMessageDialog("ongelmia uuden luomisessa " + e.getMessage());
-          return;
+            Dialogs.showMessageDialog("Ongelmia uuden kirjan luomisessa " + e.getMessage());
         }
-        hae(kirja1.getKirjanID());
     }
     
     
