@@ -12,6 +12,14 @@ import javafx.fxml.FXML;
  */
 public class TietojaController implements ModalControllerInterface<String> {
     
+   // @FXML private Hyperlink helpLinkki;
+
+  //  @FXML
+  //  void handleApua() {
+ //}
+
+    
+    
     @FXML private void handleOK() {
         Dialogs.showMessageDialog("Vielä ei osata sulkea ikkunaa");
     }

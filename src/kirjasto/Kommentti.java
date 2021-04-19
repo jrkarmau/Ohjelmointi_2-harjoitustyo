@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @author jrkarmau
  * @version 10.3.2021
  */
-public class Kommentti {
+public class Kommentti implements Cloneable {
 
     private String otsikko = "";
     private String teksti = "";
@@ -58,6 +58,27 @@ public class Kommentti {
         otsikko  = Mjonot.erota(sb, '|', otsikko);
         teksti   = Mjonot.erota(sb, '|', teksti);  
 
+    }
+    
+    
+    /**
+     * asettaa kommentille kirjan id
+     * @param id kirjan id joka asetetaan
+     */
+    public void setKirjanID(int id) {
+        kirjaID = id;
+    }
+    
+    
+    /**
+     * tekee identtisen kopion kommentista
+     * @return kloonattu kommentti
+     */
+    @Override
+    public Kommentti clone() throws CloneNotSupportedException {
+        Kommentti uusi;
+        uusi = (Kommentti) super.clone();
+        return uusi;
     }
     
     
@@ -137,9 +158,28 @@ public class Kommentti {
      * Palauttaa kommentin sisällön
      * @return kommentin sisältö
      */
-    public String getSisältö() {
+    public String getTeksti() {
         return teksti;
     }
+    
+    
+    /**
+     * Asettaa uuden otsikon
+     * @param s otsikon sisältö
+     */
+    public void setOtsikko(String s) {
+        otsikko = s;
+    }
+    
+    
+    /**
+     * Asettaa uuden tekstin kommenttiin
+     * @param s tekstin sisältö
+     */
+    public void setTeksti(String s) {
+        teksti = s;
+    }
+    
     
     
     /**
@@ -186,4 +226,6 @@ public class Kommentti {
     public Kommentti(int kirjaID) {
         this.kirjaID = kirjaID;
     }
+
+
 }

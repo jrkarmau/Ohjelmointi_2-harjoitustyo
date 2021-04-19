@@ -57,8 +57,7 @@ public class KirjastoGUIController implements Initializable {
     }
 
     @FXML private void handleLisaaKommentti() {
-        //ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Lisää kommentti", null, "");
-        uusiHarrastus();
+        uusiKommentti();
     }   
 
     @FXML private void handleLopeta() {
@@ -99,6 +98,7 @@ public class KirjastoGUIController implements Initializable {
 
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
+    private Kommentti kommenttiKohdalla;
     private String kirjastonNimi = "";  // TODO: käytä
     private TextField[] edits;
         
@@ -109,8 +109,16 @@ public class KirjastoGUIController implements Initializable {
     private void alusta() {        
         chooserKirjat.clear();
         chooserKirjat.addSelectionListener(e -> naytaKirja());
+        chooserKommentit.addSelectionListener(e -> kommenttiKohdalla());
         edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
                                  editKustantaja, editISBN, editSivumaara, editGenre};
+    }
+    
+    /**
+     * Näyttää valitun kommentin sisällön erillisessä ikkunassa
+     */
+    private void kommenttiKohdalla() {
+        kommenttiKohdalla = chooserKommentit.getSelectedObject();      
     }
     
     
@@ -151,11 +159,25 @@ public class KirjastoGUIController implements Initializable {
 
     }
     
-    
+
     private void muokkaaKommentti() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Muokkaa kommenttia", null, "");
+        if (kommenttiKohdalla == null) return;
+        Kommentti kommentti;
+
+        try {
+            kommentti = kommenttiKohdalla.clone();
+            kommentti = LisaaKommenttiController.kysyKommentti(null, kommentti);
+            if (kommentti == null) return;
+            kirjasto.korvaaTaiLisaa(kommentti);
+            naytaKommentit(kirjaKohdalla);
+        } catch (CloneNotSupportedException e) {
+            System.err.println(e.getMessage() + " kloonaus ei onnistu");
+        } catch (SailoException se) {
+            System.err.println(se.getMessage() + " Ongelmia tietorakenteessa");
+        }
+
     }
-    
+
 
     /**
      * Alustaa kirjaston lukemalla sen valitun nimisestä tiedostosta
@@ -197,7 +219,6 @@ public class KirjastoGUIController implements Initializable {
      * Lisätään Kirjastoon uusi kirja
      */
     private void uusiKirja() {
-        
         try {
             Kirja uusi = new Kirja();
             uusi = LisaaKirjaController.kysyKirja(null, uusi);
@@ -212,16 +233,17 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Luo uuden harrastuksen testaamista varten
+     * Lisää kirjaan uuden kommentin
      */
-    public void uusiHarrastus() {
+    public void uusiKommentti() {  
         if (kirjaKohdalla == null) return;
-        Kommentti kom = new Kommentti();
-        kom.rekisteroi();
-        kom.taytaKommentinTiedot(kirjaKohdalla.getKirjanID());
-        kirjasto.lisaa(kom);
-        hae(kirjaKohdalla.getKirjanID()); 
-        
+        Kommentti uusi  = new Kommentti();
+        uusi =  LisaaKommenttiController.kysyKommentti(null, uusi);
+        if (uusi == null) return;
+        uusi.rekisteroi();
+        uusi.setKirjanID(kirjaKohdalla.getKirjanID());
+        kirjasto.lisaa(uusi);
+        naytaKommentit(kirjaKohdalla);
     }
     
     

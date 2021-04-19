@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,8 +21,9 @@ import java.util.Scanner;
  */
 public class Kommentit {
     
-    private Collection<Kommentti> alkiot = new ArrayList<Kommentti>();
+    private ArrayList<Kommentti> alkiot = new ArrayList<Kommentti>();
     private String tiedostonPerusNimi = "";
+    private boolean muutettu = false;
     
     /**
      * Pääohjelma harrastuksen testaamiseksi
@@ -118,6 +118,7 @@ public class Kommentit {
                 kommentti.parse(s);
                 lisaa(kommentti);
             }
+            muutettu = false;
         } catch (FileNotFoundException e) {
             throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
         }
@@ -135,6 +136,7 @@ public class Kommentit {
      * @throws SailoException jos tallennus epäonnistuu
      */
     public void tallenna(String tiedostonNimi) throws SailoException {
+        if (!muutettu) return;
         File ftied = new File(tiedostonNimi);
         try (PrintStream fo = new PrintStream(
                 new FileOutputStream(ftied, false))) {
@@ -144,7 +146,9 @@ public class Kommentit {
         } catch (FileNotFoundException ex) {
             throw new SailoException( "Tiedosto " + ftied.getAbsolutePath() + " ei aukea");
         }
+        muutettu = false;
     }
+    
     
     
     /**
@@ -198,6 +202,7 @@ public class Kommentit {
      */
     public void lisaa(Kommentti kom) {
         alkiot.add(kom);
+        muutettu = true;
     }
     
     
@@ -207,4 +212,23 @@ public class Kommentit {
     public Kommentit() {
         //
     }
+
+
+    /**
+     * korvaa kommentin muutetulla kommentilla ja jos ei löydy tietorakenteesta lisää sen.
+     * @param kommentti kommentti joka tallennetaan
+     */
+    public void korvaaTaiLisaa(Kommentti kommentti) {
+        int id = kommentti.getKommentinID();
+
+        for (Kommentti kom : alkiot) {
+            if (kom.getKommentinID() == id) {                
+                alkiot.remove(kom);
+                alkiot.add(0, kommentti);
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(kommentti);
+    }  
 }

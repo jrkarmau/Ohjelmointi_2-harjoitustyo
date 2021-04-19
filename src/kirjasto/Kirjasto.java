@@ -156,6 +156,16 @@ public class Kirjasto {
         kirjat.korvaaTaiLisaa(kirja);
     }
     
+    
+    /**
+     * Korvaa kommentin tietorakenteessa. Jos kommenttia ei löydy id:llä luodaan uusi kommentti.
+     * @param kommentti joka korvataan
+     * @throws SailoException jos tietorakenne täynnä
+     */
+    public void korvaaTaiLisaa(Kommentti kommentti) throws SailoException {
+        kommentit.korvaaTaiLisaa(kommentti);
+    }
+    
 
     /**
      * Palauttaa kirjan pyydetyllä numerolla

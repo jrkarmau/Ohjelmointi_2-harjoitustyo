@@ -1,8 +1,16 @@
 package fxKirjasto;
 
-import fi.jyu.mit.fxgui.Dialogs;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import kirjasto.Kommentti;
 
 /**
  * Hoitaa kommentin lisäämiseen ja muokkaamiseen liittyvät toiminnot
@@ -10,32 +18,69 @@ import javafx.fxml.FXML;
  * @version 15.2.2021
  *
  */
-public class LisaaKommenttiController implements ModalControllerInterface<String> {
+public class LisaaKommenttiController implements ModalControllerInterface<Kommentti>, Initializable {
+    
+    @FXML private TextField otsikko;
+    @FXML private TextArea teksti;
+    private Kommentti kommenttiKohdalla;
 
     @FXML private void handlePeru() {
-        Dialogs.showMessageDialog("Vielä ei osata sulkea ikkunaa");
+        kommenttiKohdalla = null;
+        ModalController.closeStage(otsikko);
     }
 
     @FXML private void handleTallenna() {
-        Dialogs.showMessageDialog("Vielä ei osata tallentaa");
+        
+        kommenttiKohdalla.setOtsikko(otsikko.getText());       
+        kommenttiKohdalla.setTeksti(teksti.getText());
+        ModalController.closeStage(otsikko);
     }
 
     @Override
-    public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
+    public Kommentti getResult() {
+        return kommenttiKohdalla;
     }
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
+        otsikko.requestFocus();
         
     }
 
     @Override
-    public void setDefault(String oletus) {
-        // TODO Auto-generated method stub
-        
+    public void setDefault(Kommentti oletus) {
+        kommenttiKohdalla = oletus;
+        naytaKommentti(kommenttiKohdalla);
     }
+    
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+       //
+    }
+    
 
+    /**
+     * Näyttää kommentin 
+     * @param kommentti kommentti jota muokataan
+     */
+    public void naytaKommentti(Kommentti kommentti) {
+        if (kommentti == null) return;
+        otsikko.setText(kommentti.getOtsikko());
+        teksti.setText(kommentti.getTeksti());
+        }
+    
+    
+    /**
+     * Luodaan kommentin tietojen kysymys tai muokkausdialogi ja palautetaan sama tietue.
+     * @param modalitystage stage jolle ollaan modaalisia null == sovellukselle
+     * @param oletusTieto kommentti jonka tietoja käsitellään
+     * @return null jos painetaan peru muuten tietue
+     */
+    public static Kommentti kysyKommentti(Stage modalitystage, Kommentti oletusTieto) {
+        return ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Kommentti", modalitystage, oletusTieto);
+    }
+    
 }
+
+
+

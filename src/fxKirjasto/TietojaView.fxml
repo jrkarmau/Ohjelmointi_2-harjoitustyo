@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
@@ -37,6 +38,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Hyperlink fx:id="helpLinkki" onMouseClicked="#handleApua" text="https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/jrkarmau">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Hyperlink>
          </children>
       </VBox>
    </center>
