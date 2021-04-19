@@ -55,8 +55,8 @@
          <center>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <ComboBoxChooser minWidth="180.0" rivit="Nimi&#10;Kirjailija&#10;Kieli&#10;Julkaistu&#10;Kustantaja&#10;ISBN&#10;Sivumäärä&#10;Genre" />
-                  <TextField promptText="hae...." />
+                  <ComboBoxChooser fx:id="hakuKentat" minWidth="180.0" rivit="Nimi&#10;Kirjailija&#10;Kieli&#10;Julkaistu&#10;Kustantaja&#10;ISBN&#10;Sivumäärä&#10;Genre" />
+                  <TextField fx:id="hakuehto" onKeyReleased="#handleHaku" promptText="hae...." />
                   <Label text="Kirjat">
                      <VBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
@@ -170,7 +170,7 @@
             <HBox spacing="15.0" BorderPane.alignment="CENTER">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleLisaaKommentti" text="Lisää kommentti" />
-                  <Button mnemonicParsing="false" onAction="#handleMuokkaaKommentti" text="Muokkaa kommenttia" />
+                  <Button mnemonicParsing="false" onAction="#handleMuokkaaKommentti" text="Avaa kommentti" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

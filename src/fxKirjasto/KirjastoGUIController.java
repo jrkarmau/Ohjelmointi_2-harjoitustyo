@@ -4,6 +4,8 @@ package fxKirjasto;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
@@ -24,8 +26,12 @@ import kirjasto.SailoException;
  */
 public class KirjastoGUIController implements Initializable {
     
+
+    
     @FXML private ListChooser<Kirja> chooserKirjat;
     @FXML private ListChooser<Kommentti> chooserKommentit;
+    @FXML private ComboBoxChooser<String> hakuKentat;
+    @FXML private TextField hakuehto;
     @FXML private TextField editNimi;
     @FXML private TextField editKirjailija;
     @FXML private TextField editKieli;
@@ -36,23 +42,22 @@ public class KirjastoGUIController implements Initializable {
     @FXML private TextField editGenre;
     
     
-    /**
-     * TODO: väliaikainen alustus
-     * Kutsuu alusta metodia 
-     * @param url url
-     * @param bundle bundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         alusta();
     }
+    
+    
+    @FXML void handleHaku() {
+        hae();
+    }
+        
 
     @FXML private void handleAvaa() {
         Dialogs.showMessageDialog("Vielä ei osata avata tiedostoa");
     }
 
     @FXML private void handleLisaaKirja() {
-        // ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKirjaDialog.fxml"), "Lisää kirja", null, "");
         uusiKirja();
     }
 
@@ -113,6 +118,7 @@ public class KirjastoGUIController implements Initializable {
         edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
                                  editKustantaja, editISBN, editSivumaara, editGenre};
     }
+    
     
     /**
      * Näyttää valitun kommentin sisällön erillisessä ikkunassa
@@ -247,7 +253,10 @@ public class KirjastoGUIController implements Initializable {
     }
     
     
-    private void hae(int kirjanro) {        
+    private void hae(int kirjanro) {
+        int kentanNumero = hakuKentat.getSelectionModel().getSelectedIndex();
+        String hakusana = hakuehto.getText();
+        
         chooserKirjat.clear();
         
         int indeksi = 0;

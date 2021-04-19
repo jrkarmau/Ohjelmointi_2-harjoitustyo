@@ -1,8 +1,13 @@
 package fxKirjasto;
 
-import fi.jyu.mit.fxgui.Dialogs;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 
 /**
  * Hoitaa tietoja ikkunaan liittyvät toiminnot
@@ -12,16 +17,19 @@ import javafx.fxml.FXML;
  */
 public class TietojaController implements ModalControllerInterface<String> {
     
-   // @FXML private Hyperlink helpLinkki;
+    @FXML private Hyperlink helpLinkki;
 
-  //  @FXML
-  //  void handleApua() {
- //}
+    @FXML void handleApua() {
+        try {
+            Desktop.getDesktop().browse(new URL("https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/jrkarmau").toURI());
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
-    
     
     @FXML private void handleOK() {
-        Dialogs.showMessageDialog("Vielä ei osata sulkea ikkunaa");
+        ModalController.closeStage(helpLinkki);
     }
 
     @Override
