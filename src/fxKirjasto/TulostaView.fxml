@@ -19,7 +19,7 @@
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
           <Button mnemonicParsing="false" onAction="#handleTulosta" text="Tulosta" />
-            <Button layoutX="535.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleOK" text="OK" />
+            <Button fx:id="okButton" layoutX="535.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleOK" text="OK" />
         </buttons>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="15.0" top="10.0" />

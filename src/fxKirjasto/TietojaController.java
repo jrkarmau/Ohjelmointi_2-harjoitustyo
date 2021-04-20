@@ -18,6 +18,7 @@ import javafx.scene.control.Hyperlink;
 public class TietojaController implements ModalControllerInterface<String> {
     
     @FXML private Hyperlink helpLinkki;
+    
 
     @FXML void handleApua() {
         try {
@@ -26,27 +27,38 @@ public class TietojaController implements ModalControllerInterface<String> {
             e.printStackTrace();
         }
     }
-
     
+
     @FXML private void handleOK() {
         ModalController.closeStage(helpLinkki);
     }
+    
 
     @Override
     public String getResult() {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         return null;
     }
+    
 
     @Override
     public void handleShown() {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         
     }
+    
 
     @Override
     public void setDefault(String oletus) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         
+    }
+    
+    
+    /**
+     * Aukaisee tiedot ikkunan
+     */
+    public static void naytaTiedot() {
+        ModalController.showModal(KirjastoGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
 }

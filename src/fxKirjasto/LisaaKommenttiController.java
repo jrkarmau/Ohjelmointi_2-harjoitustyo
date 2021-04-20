@@ -16,7 +16,6 @@ import kirjasto.Kommentti;
  * Hoitaa kommentin lisäämiseen ja muokkaamiseen liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
  * @version 15.2.2021
- *
  */
 public class LisaaKommenttiController implements ModalControllerInterface<Kommentti>, Initializable {
     
@@ -24,28 +23,32 @@ public class LisaaKommenttiController implements ModalControllerInterface<Kommen
     @FXML private TextArea teksti;
     private Kommentti kommenttiKohdalla;
 
+    
     @FXML private void handlePeru() {
         kommenttiKohdalla = null;
         ModalController.closeStage(otsikko);
     }
 
+    
     @FXML private void handleTallenna() {
-        
         kommenttiKohdalla.setOtsikko(otsikko.getText());       
         kommenttiKohdalla.setTeksti(teksti.getText());
         ModalController.closeStage(otsikko);
     }
 
+    
     @Override
     public Kommentti getResult() {
         return kommenttiKohdalla;
     }
 
+    
     @Override
     public void handleShown() {
         otsikko.requestFocus();
         
     }
+    
 
     @Override
     public void setDefault(Kommentti oletus) {
@@ -53,12 +56,13 @@ public class LisaaKommenttiController implements ModalControllerInterface<Kommen
         naytaKommentti(kommenttiKohdalla);
     }
     
+    
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-       //
+       // Auto-generated method stub
     }
     
-
+    
     /**
      * Näyttää kommentin 
      * @param kommentti kommentti jota muokataan
@@ -78,9 +82,5 @@ public class LisaaKommenttiController implements ModalControllerInterface<Kommen
      */
     public static Kommentti kysyKommentti(Stage modalitystage, Kommentti oletusTieto) {
         return ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKommenttiDialog.fxml"), "Kommentti", modalitystage, oletusTieto);
-    }
-    
+    } 
 }
-
-
-

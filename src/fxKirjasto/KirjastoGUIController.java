@@ -1,14 +1,12 @@
 package fxKirjasto;
 
-
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
-import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,11 +20,8 @@ import kirjasto.SailoException;
  * Hoitaa pääikkunaan liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
  * @version 15.2.2021
- *
  */
 public class KirjastoGUIController implements Initializable {
-    
-
     
     @FXML private ListChooser<Kirja> chooserKirjat;
     @FXML private ListChooser<Kommentti> chooserKommentit;
@@ -47,12 +42,10 @@ public class KirjastoGUIController implements Initializable {
         alusta();
     }
     
-    
     @FXML void handleHaku() {
-        hae();
+        hae(0);
     }
         
-
     @FXML private void handleAvaa() {
         Dialogs.showMessageDialog("Vielä ei osata avata tiedostoa");
     }
@@ -73,7 +66,6 @@ public class KirjastoGUIController implements Initializable {
         muokkaaKirja();
     }
 
-    
     @FXML private void handleMuokkaaKommentti() {
         muokkaaKommentti();
     }
@@ -91,15 +83,15 @@ public class KirjastoGUIController implements Initializable {
     }
 
     @FXML private void handleTietoja() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
+        TietojaController.naytaTiedot();
     }
 
     @FXML private void handleTulosta() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("TulostaView.fxml"), "Tulosta", null, "");
+        TulostaController.naytaTulosta();
     }
 
     
-// oma koodi alkaa ------------------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------------------
 
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
@@ -252,22 +244,38 @@ public class KirjastoGUIController implements Initializable {
         naytaKommentit(kirjaKohdalla);
     }
     
-    
-    private void hae(int kirjanro) {
+    /**
+     * Hakee kirjojen tiedot listaan
+     * @param kirjanro
+     */
+    private void hae(int kirjanNumero) {
+        int kirjanro = kirjanNumero;
+        if (kirjanro == 0) {
+            Kirja kohdalla = kirjaKohdalla;
+            if (kohdalla != null) kirjanro = kohdalla.getKirjanID();
+        }
+
         int kentanNumero = hakuKentat.getSelectionModel().getSelectedIndex();
         String hakusana = hakuehto.getText();
-        
+        if (hakusana.indexOf('*') < 0) hakusana = "*" + hakusana + "*";
+
         chooserKirjat.clear();
         
         int indeksi = 0;
-        for (int i = 0; i < kirjasto.getKirjoja(); i++) {
-            Kirja kirja = kirjasto.annaKirja(i);
-            if (kirja.getKirjanID() == kirjanro) indeksi = i;
-            chooserKirjat.add(kirja.getNimi(), kirja);
+        ArrayList<Kirja> kirjat;
+        try {
+            kirjat = kirjasto.etsi(hakusana, kentanNumero);
+            for (int i = 0; i < kirjat.size(); i++) {
+                Kirja kirja = kirjat.get(i);
+                if (kirja.getKirjanID() == kirjanro) indeksi = i;
+                chooserKirjat.add(kirja.getNimi(), kirja);
+            }
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Kirjojen haussa ongelmia");
         }
-        chooserKirjat.setSelectedIndex(indeksi);  // tästä tulee muutosviesti
+        chooserKirjat.setSelectedIndex(indeksi); // tästä tulee muutosviesti
     }
-    
+
     
     /**
      * Asetetaan käytettävä kerho

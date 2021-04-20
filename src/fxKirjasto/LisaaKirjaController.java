@@ -12,15 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import kirjasto.Kirja;
 
-
 /**
  * Hoitaa kirjan lisäämiseen liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
  * @version 15.2.2021
- *
  */
 public class LisaaKirjaController implements ModalControllerInterface<Kirja>, Initializable {
-    
+
     private Kirja kirjaKohdalla;
     @FXML private TextField labelVirhe;
     @FXML private TextField editNimi;
@@ -32,12 +30,13 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     @FXML private TextField editSivumaara;
     @FXML private TextField editGenre;
     private TextField[] edits;
-    
+
     
     @FXML private void handlePeru() {
         kirjaKohdalla = null;
         ModalController.closeStage(labelVirhe);
     }
+
 
     @FXML private void handleTallenna() {
         if (kirjaKohdalla != null && kirjaKohdalla.getNimi().trim().equals("")) {
@@ -46,67 +45,75 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
         }
         ModalController.closeStage(labelVirhe);
     }
-    
+
+
     @Override
     public Kirja getResult() {
         return kirjaKohdalla;
     }
 
+
     @Override
     public void handleShown() {
         editNimi.requestFocus();
-        
+
     }
+
 
     @Override
     public void setDefault(Kirja oletus) {
         kirjaKohdalla = oletus;
-        naytaKirja(kirjaKohdalla);     
+        naytaKirja(kirjaKohdalla);
     }
+
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         alusta();
-        
-    } 
-    
+
+    }
+
+
     /**
      * Alustaa uuden textfield taulukon käynnistyessä
      */
-    private void alusta() {        
-        edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
-                                 editKustantaja, editISBN, editSivumaara, editGenre};
+    private void alusta() {
+        edits = new TextField[] { editNimi, editKirjailija, editKieli,
+                editJulkaistu, editKustantaja, editISBN, editSivumaara,
+                editGenre };
         int i = 0;
         for (TextField edit : edits) {
             final int k = i++;
-            edit.setOnKeyReleased(e -> kasitteleMuutosKirjaan(k, (TextField)(e.getSource())));
+            edit.setOnKeyReleased(e -> kasitteleMuutosKirjaan(k,
+                    (TextField) (e.getSource())));
         }
     }
-    
-    
+
+
     /**
      * käsittelee jäsenen kenttään tullut muutos
      * @param k kentän numero
      * @param edit muuttunut kenttä
      */
     private void kasitteleMuutosKirjaan(int k, TextField edit) {
-        if (kirjaKohdalla == null) return;
+        if (kirjaKohdalla == null)
+            return;
         String s = edit.getText();
         String virhe = null;
         virhe = kirjaKohdalla.setKentta(k, s);
-        
+
         if (virhe == null) {
             Dialogs.setToolTipText(edit, "");
             edit.getStyleClass().removeAll("virhe");
-            naytaVirhe(virhe);  
+            naytaVirhe(virhe);
         } else {
             Dialogs.setToolTipText(edit, virhe);
             edit.getStyleClass().add("virhe");
-            naytaVirhe(virhe);  
-        } 
+            naytaVirhe(virhe);
+        }
     }
-    
-    
+
+
     /**
      * Näyttää virheen dialogissa
      * @param virhe virheen teksti
@@ -119,10 +126,9 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
         }
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
-        }
-    
-    
-    
+    }
+
+
     /**
      * Luodaan kirjan tietojen kysymys tai muokkausdialogi ja palautetaan sama tietue.
      * @param modalitystage stage jolle ollaan modaalisia null == sovellukselle
@@ -130,10 +136,13 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
      * @return null jos painetaan Cancel muuten tietue
      */
     public static Kirja kysyKirja(Stage modalitystage, Kirja oletusTieto) {
-      return ModalController.showModal(KirjastoGUIController.class.getResource("LisaaKirjaDialog.fxml"), "Muokkaa kirjaa", modalitystage, oletusTieto);
+        return ModalController.showModal(
+                KirjastoGUIController.class
+                        .getResource("LisaaKirjaDialog.fxml"),
+                "Muokkaa kirjaa", modalitystage, oletusTieto);
     }
-    
-    
+
+
     /**
      * Näyttää kirjan tiedot editkentissä
      * @param kirja kirja jonka tiedot näytetään
@@ -141,20 +150,18 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     private void naytaKirja(Kirja kirja) {
         naytaKirja(edits, kirja);
     }
-    
-    
+
+
     /**
      * Lisätään kirjan tiedot taulukolliseen edit kenttiä
      * @param edits editkentät joihin tietotallennetaan
      * @param kirja kirja jonka tiedot näytetään
      */
     public static void naytaKirja(TextField[] edits, Kirja kirja) {
-        if (kirja == null) return;
+        if (kirja == null)
+            return;
         for (int i = 0; i < edits.length; i++) {
             edits[i].setText(kirja.getKentta(i));
         }
     }
-
-    
-
 }

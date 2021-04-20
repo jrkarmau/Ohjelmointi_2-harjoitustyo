@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import fi.jyu.mit.ohj2.WildChars;
 
 /**
  * - pitää yllä varsinaista kirjarekisteriä, eli osaa 
@@ -71,7 +74,24 @@ public class Kirjat {
 
     }
 
+    
+    /**
+     * Etsii Kirjoista hakuehdot täyttävät kirjat
+     * @param hakuehto käyttäjän hakuehto
+     * @param hakukenttaNro minkä tiedon perusteella etsitään
+     * @return lista kirjoista jotka täyttävät hakuehdot
+     */
+    public ArrayList<Kirja> etsi(String hakuehto, int hakukenttaNro) {
+        ArrayList<Kirja> loytyneet = new ArrayList<>();
+        for (int i = 0; i < lkm; i++) {
+            if (WildChars.onkoSamat(alkiot[i].getKentta(hakukenttaNro), hakuehto)) {
+                loytyneet.add(alkiot[i]);
+            }
+        }
+        return loytyneet;
+    }
 
+    
     /**
      * Lukee kirjaston tiedostosta
      * @param hakemisto tiedoston hakemisto

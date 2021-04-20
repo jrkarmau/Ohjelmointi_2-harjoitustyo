@@ -129,7 +129,7 @@ public class Kirja implements Cloneable {
         kirjaID = id;
         if (kirjaID >= seuraavaID) seuraavaID = kirjaID + 1;
     }
-    
+  
 
     /**
      * antaa kirjalle seuraavan ID:n

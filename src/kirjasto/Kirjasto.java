@@ -1,6 +1,7 @@
 package kirjasto;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +75,18 @@ public class Kirjasto {
             System.out.println(kom.getKirjanID() + " ");
             kom.tulosta(System.out);            
         }
+    }
+    
+    
+    /**
+     * Etsii Kirjoista hakuehdot täyttävät kirjat
+     * @param hakuehto käyttäjän hakuehto
+     * @param hakukenttaNro minkä tiedon perusteella etsitään
+     * @return lista kirjoista jotka täyttävät hakuehdot
+     * @throws SailoException jos etsimisessä on ongelmia
+     */
+    public ArrayList<Kirja> etsi(String hakuehto, int hakukenttaNro) throws SailoException {
+        return kirjat.etsi(hakuehto, hakukenttaNro);
     }
     
 

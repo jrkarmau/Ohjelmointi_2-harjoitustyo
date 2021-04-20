@@ -55,7 +55,7 @@
          <center>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <ComboBoxChooser fx:id="hakuKentat" minWidth="180.0" rivit="Nimi&#10;Kirjailija&#10;Kieli&#10;Julkaistu&#10;Kustantaja&#10;ISBN&#10;Sivumäärä&#10;Genre" />
+                  <ComboBoxChooser fx:id="hakuKentat" minWidth="180.0" onAction="#handleHaku" onMouseExited="#handleHaku" rivit="Nimi&#10;Kirjailija&#10;Kieli&#10;Kustantaja&#10;Julkaistu&#10;ISBN&#10;Sivumäärä&#10;Genre" />
                   <TextField fx:id="hakuehto" onKeyReleased="#handleHaku" promptText="hae...." />
                   <Label text="Kirjat">
                      <VBox.margin>
