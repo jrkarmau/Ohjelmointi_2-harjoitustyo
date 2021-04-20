@@ -73,6 +73,34 @@ public class Kirjat {
         }
 
     }
+    
+    
+    /**
+     * Poistaa kirjan taulukosta
+     * @param id kirjan ID numero
+     */
+    public void poista(int id) {
+        int ind = etsiId(id); 
+        if (ind < 0) return; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++) 
+            alkiot[i] = alkiot[i + 1]; 
+        alkiot[lkm] = null; 
+        muutettu = true; 
+    }
+    
+    
+    /**
+     * etsii ja palauttaa kirjan indeksin taulukossa
+     * @param id haettavan kirjan id
+     * @return -1 jo sei löydy muuten kirjan indeksi taulukossa
+     */
+    public int etsiId(int id) {
+        for (int i = 0; i < lkm; i++)
+            if (id == alkiot[i].getKirjanID())
+                return i;
+        return -1;
+    }
 
     
     /**

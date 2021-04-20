@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -230,5 +231,45 @@ public class Kommentit {
             }
         }
         lisaa(kommentti);
-    }  
+    }
+    
+    /**
+     * Poistaa yhden kommentin
+     */
+    public void poistaKommentti() {
+        //
+    }
+    
+
+    /**
+     * Poistaa kaikki kirjan kommentit
+     * @param kirjanID kirja jonka kommentit poistetaan
+     */
+    public void poistaKirjanKommentit(int kirjanID) {
+        int n = 0;
+        for (Iterator<Kommentti> it = alkiot.iterator(); it.hasNext();) {
+            Kommentti kom = it.next();
+            if (kom.getKirjanID() == kirjanID) {
+                it.remove();
+                n++;
+            }
+        }
+        if (n > 0)
+            muutettu = true;
+    }
+
+
+    /**
+     * Poistaa yhden kommentin 
+     * @param kommentinID kommentin id joka poistetaan
+     */
+    public void poistaKommentti(int kommentinID) {
+        for (Kommentti kom : alkiot) {
+            if (kom.getKommentinID() == kommentinID) {
+                alkiot.remove(kom);
+                muutettu = true;
+                return;
+            }
+        }
+    }      
 }

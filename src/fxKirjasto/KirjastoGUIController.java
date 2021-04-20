@@ -59,6 +59,7 @@ public class KirjastoGUIController implements Initializable {
     }   
 
     @FXML private void handleLopeta() {
+        tallenna();
         Platform.exit();
     }
 
@@ -71,11 +72,11 @@ public class KirjastoGUIController implements Initializable {
     }
 
     @FXML private void handlePoistaKirja() {
-        Dialogs.showMessageDialog("Vielä ei osata poistaa kirjaa");
+        poistaKirja();
     }
 
     @FXML private void handlePoistaKommentti() {
-        Dialogs.showMessageDialog("Vielä ei osata poistaa kommenttia");
+        poistaKommentti();
     }
 
     @FXML private void handleTallenna() {
@@ -109,6 +110,30 @@ public class KirjastoGUIController implements Initializable {
         chooserKommentit.addSelectionListener(e -> kommenttiKohdalla());
         edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
                                  editKustantaja, editISBN, editSivumaara, editGenre};
+    }
+    
+    
+    /**
+     * Poistaa valitun kirjan
+     */
+    private void poistaKirja() {
+        Kirja kirja = kirjaKohdalla;
+        if (kirja == null) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko Kirja: " + kirja.getNimi(), "Kyllä", "Ei") ) return;
+        kirjasto.poistaKirja(kirja);
+        int index = chooserKirjat.getSelectedIndex();
+        hae(0);
+        chooserKirjat.setSelectedIndex(index);
+    }
+    
+    
+    /**
+     * Poistaa valitun kommentin
+     */
+    private void poistaKommentti() {
+        if (kommenttiKohdalla == null) return;
+        kirjasto.poistaKommentti(kommenttiKohdalla);
+        naytaKommentit(kirjaKohdalla);
     }
     
     

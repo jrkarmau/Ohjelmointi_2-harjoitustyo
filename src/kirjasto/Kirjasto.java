@@ -89,6 +89,25 @@ public class Kirjasto {
         return kirjat.etsi(hakuehto, hakukenttaNro);
     }
     
+    
+    /**
+     * Poistaa kirjan taulukosta
+     * @param kirja poistettava kirja
+     */
+    public void poistaKirja(Kirja kirja) {
+        if (kirja == null) return;
+        kirjat.poista(kirja.getKirjanID());
+        kommentit.poistaKirjanKommentit(kirja.getKirjanID());
+    }
+    
+    /**
+     * Poistaa yhden kommentin
+     * @param kommentti kommentti joka poistetaan
+     */
+    public void poistaKommentti(Kommentti kommentti) {
+        kommentit.poistaKommentti(kommentti.getKommentinID());
+    }
+    
 
     /**
      * Lukee kirjaston tiedot tiedostosta
