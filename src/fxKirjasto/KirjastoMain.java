@@ -1,7 +1,7 @@
 package fxKirjasto;
 	
-import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import kirjasto.Kirjasto;
 import javafx.scene.Scene;
@@ -20,28 +20,24 @@ public class KirjastoMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			//BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("KirjastoGUIView.fxml"));
-		    final FXMLLoader ldr = new FXMLLoader(getClass().getResource("KirjastoGUIView.fxml"));  // korvattu ylempi rivi tällä
-		    final Pane root = (Pane)ldr.load();                                                     // lisätty
-		    final KirjastoGUIController kirjastoCtrl = (KirjastoGUIController)ldr.getController();  // lisätty
-			final Scene scene = new Scene(root);                                                    // lisätty final
+			final FXMLLoader ldr = new FXMLLoader(getClass().getResource("KirjastoGUIView.fxml")); 		
+			final Pane root = (Pane)ldr.load();                                                     
+		    final KirjastoGUIController kirjastoCtrl = (KirjastoGUIController)ldr.getController();  
+			final Scene scene = new Scene(root);                                                    
 			scene.getStylesheets().add(getClass().getResource("kirjasto.css").toExternalForm());
 			primaryStage.setScene(scene);			
 			primaryStage.setTitle("Kirjasto");
 			
-			
 			Kirjasto kirjasto = new Kirjasto();
 			kirjastoCtrl.setKirjasto(kirjasto);
-			
-			
-	        ModalController.showModal(KirjastoGUIController.class.getResource("AloitusView.fxml"), "Valitse kirjasto", null, "");	//väliaikainen	TODO: kunnollinen aloitussivun aukaisu	
-	        kirjastoCtrl.lueTiedosto("kirjasto");
+			if (!kirjastoCtrl.avaa()) Platform.exit();
 	        primaryStage.show();
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	
 	/**
 	 * @param args ei käytössä

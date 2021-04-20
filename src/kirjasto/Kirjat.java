@@ -125,9 +125,9 @@ public class Kirjat {
      * @param hakemisto tiedoston hakemisto
      * @throws SailoException jos lukeminen epäonnistuu
      */
-    public void lueTiedostosta(String hakemisto) throws SailoException {
+    public void lueTiedostosta(String hakemisto) throws SailoException {     
+                
         setTiedostonPerusNimi(hakemisto); 
-
         try (Scanner fi = new Scanner(new FileInputStream(getTiedostonPerusNimi()))) {
             while (fi.hasNext()) {
                 String s = "";
@@ -183,8 +183,7 @@ public class Kirjat {
     public void tallenna(String tiedostonNimi) throws SailoException {
         if ( !muutettu ) return;
         File ftied = new File(tiedostonNimi);
-        try (PrintStream fo = new PrintStream(
-                new FileOutputStream(ftied, false))) {
+        try (PrintStream fo = new PrintStream(new FileOutputStream(ftied, false))) {
             for (int i = 0; i < getLkm(); i++) {
                 Kirja kirja = anna(i);
                 fo.println(kirja.toString());

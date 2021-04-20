@@ -108,7 +108,8 @@ public class KirjastoGUIController implements Initializable {
     /**
      * Tyhjentää kirja ja kommenttivalitsimet sekä tekstikentät ja alustaa kuuntelijat
      */
-    private void alusta() {        
+    private void alusta() {
+        
         chooserKirjat.clear();
         chooserKirjat.addSelectionListener(e -> naytaKirja());
         chooserKommentit.addSelectionListener(e -> kommenttiKohdalla());
@@ -213,21 +214,27 @@ public class KirjastoGUIController implements Initializable {
      * @param nimi tiedosto josta kirjaston tiedot luetaan
      * @return null jo sonnistuu, muuten virhe-viesti
      */
-    protected String lueTiedosto(String nimi) {
-        kirjastonNimi = nimi;
-        // setTitle("Kirjastosi " + kirjastonNimi);  //TODO: aseta title
-        try {
-            kirjasto.lueTiedostosta(nimi);
-            hae(0);
-            return null;
-        } catch (SailoException e) {
-            hae(0);
-            String virhe = e.getMessage();
-            if (virhe != null) Dialogs.showMessageDialog(virhe);
-            return virhe;
+    public Boolean lueTiedosto(String nimi) {
+
+        if (!kirjasto.tarkistaTiedosto(nimi)) {
+            return false;
         }
+       
+            kirjastonNimi = nimi;
+            try {
+                kirjasto.lueTiedostosta(nimi);
+                hae(0);
+                return true;
+            } catch (SailoException e) {
+                hae(0);
+                //String virhe = e.getMessage();
+                //if (virhe != null)
+                    //Dialogs.showMessageDialog(virhe);
+                return false;
+            }
+        
     }
-    
+
     
     /**
      * Tietojen tallennus
@@ -273,6 +280,16 @@ public class KirjastoGUIController implements Initializable {
         uusi.setKirjanID(kirjaKohdalla.getKirjanID());
         kirjasto.lisaa(uusi);
         naytaKommentit(kirjaKohdalla);
+    }
+    
+    
+    /**
+     * Tarkistaa onko tallennus tehty
+     * @return palauttaa true jos tallennettu muuten false
+     */
+    public boolean voikoSulkea() {
+        tallenna();
+        return true;
     }
     
     /**
@@ -321,15 +338,19 @@ public class KirjastoGUIController implements Initializable {
      * @return boolean onnistuiko avaus
      */
     public boolean avaa() {
+        chooserKirjat.clear();
+        chooserKommentit.clear();
+        for (TextField field : edits) {
+            field.clear();
+        }
+        
         String uusinimi = AloitusController.kysyNimi(null, kirjastonNimi);
-        if (uusinimi == null) return false;
-        lueTiedosto(uusinimi);
-        return true;
+        return lueTiedosto(uusinimi);
     }
     
     
     /**
-     * Tulostaa listasta valitut kirjat
+     * Tulostaa kirjat listasta
      * @param tulostusAlue alue johon tulsotetaan
      */
     private void tulostaKirjat(TextArea tulostusAlue) {
@@ -356,6 +377,5 @@ public class KirjastoGUIController implements Initializable {
         for (Kommentti kom : kirjanKommentit) {
             kom.tulosta(ps);
         }
-        //ps.println("----------------------------------------------");
     }
 }

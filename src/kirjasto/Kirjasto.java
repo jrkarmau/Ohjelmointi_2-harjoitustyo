@@ -1,8 +1,11 @@
 package kirjasto;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import fi.jyu.mit.fxgui.Dialogs;
 
 /**
  * - huolehtii Kirjat ja Kommentit - luokkien     
@@ -225,5 +228,31 @@ public class Kirjasto {
      */
     public void lisaa(Kirja kirja) throws SailoException {
         kirjat.lisaa(kirja);
-    } 
+    }
+
+
+    /**
+     * Tekee uudet kirjat ja kommentit tiedostot
+     * @param nimi kansion nimi
+     * @return false jos perutaan true muuten
+     */
+    public boolean tarkistaTiedosto(String nimi) {
+        File tiedosto = new File(nimi + "/kirjat.dat");
+        if (!tiedosto.exists()) {
+            if (!Dialogs.showQuestionDialog("Ei löydy", "Luodaanko uusi kirjasto: " + nimi, "Kyllä", "Ei")) {
+                return false;
+            }
+        }
+        File kirjatFile = new File(nimi + "/kirjat.dat");
+        File kommentitFile = new File(nimi + "/kommentit.dat");
+
+        try {
+            kirjatFile.getParentFile().mkdirs();
+            kirjatFile.createNewFile();
+            kommentitFile.createNewFile();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        return true;
+    }
 }

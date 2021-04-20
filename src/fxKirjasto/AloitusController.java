@@ -54,6 +54,6 @@ public class AloitusController implements ModalControllerInterface<String> {
      * @return null jos painetaan cancel muuten kirjoitettu uusi nimi
      */
     public static String kysyNimi(Stage modalityStage, String oletus) {
-        return ModalController.showModal(AloitusController.class.getResource("AloitusView.fxml"), "Kirjasto", modalityStage, oletus); 
+        return ModalController.showModal(AloitusController.class.getResource("AloitusView.fxml"), "Avaa kirjasto", modalityStage, oletus); 
     }
 }
