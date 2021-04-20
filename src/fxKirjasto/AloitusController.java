@@ -1,8 +1,10 @@
 package fxKirjasto;
 
-import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * hoitaa aloitusikkunaan liittyvät toiminnot
@@ -12,33 +14,46 @@ import javafx.fxml.FXML;
  */
 public class AloitusController implements ModalControllerInterface<String> {
     
+    @FXML private TextField kirjastonNimi;
+    private String vastaus = null;
+    
     @FXML private void handleCancel() {
-        Dialogs.showMessageDialog("Vielä ei osata sulkea");
+        vastaus = null;
+        ModalController.closeStage(kirjastonNimi);
     }
     
 
     @FXML private void handleOK() {
-        Dialogs.showMessageDialog("Vielä ei osata aloittaa pääohjelmaa");
+        vastaus = kirjastonNimi.getText();
+        ModalController.closeStage(kirjastonNimi);
     }
     
 
     @Override
     public String getResult() {
-        // Auto-generated method stub
-        return null;
+        return vastaus;
     }
     
 
     @Override
     public void handleShown() {
-        // Auto-generated method stub
+        kirjastonNimi.requestFocus();
         
     }
     
 
     @Override
     public void setDefault(String oletus) {
-        // Auto-generated method stub
-        
+        kirjastonNimi.setText(oletus);
     }        
+    
+    /**
+     * Avaa kirjaston nimen kysymysikkunan
+     * @param modalityStage kelle ollaan modaalisia
+     * @param oletus kirjaston oletusnimi
+     * @return null jos painetaan cancel muuten kirjoitettu uusi nimi
+     */
+    public static String kysyNimi(Stage modalityStage, String oletus) {
+        return ModalController.showModal(AloitusController.class.getResource("AloitusView.fxml"), "Kirjasto", modalityStage, oletus); 
+    }
 }

@@ -189,7 +189,8 @@ public class Kirja implements Cloneable {
         out.println(String.format("%03d", kirjaID));
         out.println(kirjanNimi + " " + kirjailija );
         out.println(kieli + " " + kustantaja);
-        out.println(julkaistu + " " + genre + " " + sivumaara + " " + isbn + "\n");        
+        out.println(julkaistu + " " + isbn);
+        out.println(sivumaara + " " + genre);        
     }
     
     

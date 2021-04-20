@@ -1,5 +1,6 @@
 package fxKirjasto;
 
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +8,11 @@ import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import kirjasto.Kirja;
 import kirjasto.Kirjasto;
@@ -47,7 +50,7 @@ public class KirjastoGUIController implements Initializable {
     }
         
     @FXML private void handleAvaa() {
-        Dialogs.showMessageDialog("Vielä ei osata avata tiedostoa");
+        avaa();
     }
 
     @FXML private void handleLisaaKirja() {
@@ -59,7 +62,6 @@ public class KirjastoGUIController implements Initializable {
     }   
 
     @FXML private void handleLopeta() {
-        tallenna();
         Platform.exit();
     }
 
@@ -88,26 +90,30 @@ public class KirjastoGUIController implements Initializable {
     }
 
     @FXML private void handleTulosta() {
-        TulostaController.naytaTulosta();
+        TulostaController tulostusCtrl = TulostaController.tulosta(null);
+        tulostaKirjat(tulostusCtrl.getTextArea());
     }
 
     
 // ------------------------------------------------------------------------------------------------------------------------------------------
 
+
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
     private Kommentti kommenttiKohdalla;
-    private String kirjastonNimi = "";  // TODO: käytä
+    private String kirjastonNimi = "";
     private TextField[] edits;
         
  
     /**
-     * Tyhjentää kirja ja kommenttivalitsimet sekä tekstikentät 
+     * Tyhjentää kirja ja kommenttivalitsimet sekä tekstikentät ja alustaa kuuntelijat
      */
     private void alusta() {        
         chooserKirjat.clear();
         chooserKirjat.addSelectionListener(e -> naytaKirja());
         chooserKommentit.addSelectionListener(e -> kommenttiKohdalla());
+        chooserKirjat.setOnMouseClicked(e -> {if (e.getClickCount() > 1) muokkaaKirja(); });
+        chooserKommentit.setOnMouseClicked(e -> {if (e.getClickCount() > 1) muokkaaKommentti(); }); 
         edits = new TextField[] {editNimi, editKirjailija, editKieli, editJulkaistu,
                                  editKustantaja, editISBN, editSivumaara, editGenre};
     }
@@ -209,7 +215,7 @@ public class KirjastoGUIController implements Initializable {
      */
     protected String lueTiedosto(String nimi) {
         kirjastonNimi = nimi;
-        //setTitle("Kirjastosi " + kirjastonNimi);  TODO: aseta tittle
+        // setTitle("Kirjastosi " + kirjastonNimi);  //TODO: aseta title
         try {
             kirjasto.lueTiedostosta(nimi);
             hae(0);
@@ -308,5 +314,48 @@ public class KirjastoGUIController implements Initializable {
      */
     public void setKirjasto(Kirjasto kirjasto) {
         this.kirjasto = kirjasto;
+    }
+    
+    /**
+     * Kysytään uusi kirjaston nimi ja avataan se
+     * @return boolean onnistuiko avaus
+     */
+    public boolean avaa() {
+        String uusinimi = AloitusController.kysyNimi(null, kirjastonNimi);
+        if (uusinimi == null) return false;
+        lueTiedosto(uusinimi);
+        return true;
+    }
+    
+    
+    /**
+     * Tulostaa listasta valitut kirjat
+     * @param tulostusAlue alue johon tulsotetaan
+     */
+    private void tulostaKirjat(TextArea tulostusAlue) {
+        try (PrintStream ps = TextAreaOutputStream.getTextPrintStream(tulostusAlue)) {
+            ps.println("Tulostetaan kaikki kirjat");
+            for (Kirja kirja : chooserKirjat.getObjects()) {
+                tulosta(ps, kirja);
+                ps.println("");
+            }
+        }
+    }
+    
+    
+    /**
+     * Tulostaa yhden kirjan tiedot tulostusalueelle
+     *  @param ps tietovirta johon tulostetaan
+     *  @param kirja jonka tiedot tulostetaan
+     */
+    private void tulosta(PrintStream ps, Kirja kirja) {
+        ps.println("----------------------------------------------");
+        kirja.tulosta(ps);
+
+        List<Kommentti> kirjanKommentit = kirjasto.annaKommentit(kirja);
+        for (Kommentti kom : kirjanKommentit) {
+            kom.tulosta(ps);
+        }
+        //ps.println("----------------------------------------------");
     }
 }

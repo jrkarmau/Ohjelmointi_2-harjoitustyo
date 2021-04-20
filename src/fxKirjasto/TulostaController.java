@@ -1,10 +1,12 @@
 package fxKirjasto;
 
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.web.WebEngine;
 
 
 /**
@@ -15,6 +17,7 @@ import javafx.scene.control.Button;
 public class TulostaController implements ModalControllerInterface<String> {
     
     @FXML private Button okButton;
+    @FXML private TextArea tulostusAlue;
     
 
     @FXML private void handleOK() {
@@ -23,7 +26,13 @@ public class TulostaController implements ModalControllerInterface<String> {
     
 
     @FXML private void handleTulosta() {
-        Dialogs.showMessageDialog("Vielä ei osata tulostaa");
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null && job.showPrintDialog(null)) {
+            WebEngine webEngine = new WebEngine();
+            webEngine.loadContent("<pre>" + tulostusAlue.getText() + "</pre>");
+            webEngine.print(job);
+            job.endJob();
+        }
     }
     
 
@@ -42,14 +51,25 @@ public class TulostaController implements ModalControllerInterface<String> {
     
     @Override
     public void setDefault(String oletus) {
-        // Auto-generated method stub
+        tulostusAlue.setText(oletus);
     }
     
+
+    /**
+     * @return alue johon tulostetaan
+     */
+    public TextArea getTextArea() {
+        return tulostusAlue;
+    }
+
     
     /**
-     * Avaa tulostusikkunan
+     * Luo ja näyttää tulostusalueessa tekstin
+     * @param tulostus tulostettava teksti
+     * @return tulostuscontroller jo starvitaan pyytää lisää tietoa
      */
-    public static void naytaTulosta() {
-        ModalController.showModal(KirjastoGUIController.class.getResource("TulostaView.fxml"), "Tulosta", null, "");
+    public static TulostaController tulosta(String tulostus) {
+        TulostaController tulostaCtrl = ModalController.showModeless(TulostaController.class.getResource("TulostaView.fxml"), "Tulostus", tulostus);
+        return tulostaCtrl;
     }
 }

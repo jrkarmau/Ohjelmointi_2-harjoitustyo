@@ -187,7 +187,7 @@ public class Kommentti implements Cloneable {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println("kommentin otsikko: " + otsikko + "\nkommentin sisältö: " + teksti);
+        out.println(otsikko + "\n" + teksti);
     }
     
     

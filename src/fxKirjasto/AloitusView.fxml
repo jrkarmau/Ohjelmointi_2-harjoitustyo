@@ -26,7 +26,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="25.0" prefWidth="201.0" text="Parhaat kirjat">
+                  <TextField fx:id="kirjastonNimi" prefHeight="25.0" prefWidth="201.0" text="Parhaat kirjat">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
