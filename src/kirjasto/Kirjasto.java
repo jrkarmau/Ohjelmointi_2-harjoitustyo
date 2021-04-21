@@ -2,6 +2,7 @@ package kirjasto;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -254,5 +255,15 @@ public class Kirjasto {
             System.err.println(e.getMessage());
         }
         return true;
+    }
+
+
+    /**
+     * Laskee kirjaston tilastot
+     * @param ps tietovirta johon tulsotetaan
+     */
+    public void laskeTilastot(PrintStream ps) {
+        kirjat.laskeTilastot(ps);
+        
     }
 }

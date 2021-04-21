@@ -42,6 +42,7 @@
           <Menu mnemonicParsing="false" text="Apua">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleTietoja" text="Tietoja" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleTilastot" text="Tilastot" />
             </items>
           </Menu>
         </menus>

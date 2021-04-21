@@ -93,6 +93,11 @@ public class KirjastoGUIController implements Initializable {
         TulostaController tulostusCtrl = TulostaController.tulosta(null);
         tulostaKirjat(tulostusCtrl.getTextArea());
     }
+    
+    @FXML private void handleTilastot() {
+        TilastotController tilastotCtrl = TilastotController.naytaTilastot(null);
+        laskeTilastot(tilastotCtrl.getTextArea());
+    }
 
     
 // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -101,7 +106,7 @@ public class KirjastoGUIController implements Initializable {
     private Kirjasto kirjasto;
     private Kirja kirjaKohdalla;
     private Kommentti kommenttiKohdalla;
-    private String kirjastonNimi = "";
+    private String kirjastonNimi = "kirjasto";
     private TextField[] edits;
         
  
@@ -360,6 +365,14 @@ public class KirjastoGUIController implements Initializable {
                 tulosta(ps, kirja);
                 ps.println("");
             }
+        }
+    }
+    
+
+    private void laskeTilastot(TextArea tArea) {
+        try(PrintStream ps = TextAreaOutputStream.getTextPrintStream(tArea)) {
+            ps.println("Kirjastosi tilastot:\n");  
+            kirjasto.laskeTilastot(ps);
         }
     }
     

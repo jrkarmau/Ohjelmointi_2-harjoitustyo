@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fi.jyu.mit.ohj2.Mjonot;
 import fi.jyu.mit.ohj2.WildChars;
 
 /**
@@ -313,5 +314,72 @@ public class Kirjat {
      */
     public Kirjat() {
         alkiot = new Kirja[MAX_KIRJOJA];
+    }
+    
+    
+    /**
+     * Laskee suosituimman tiedon kentän perusteella
+     * @param kentta kentta jota vertaillaan
+     * @return suosituimman kentan sisältö
+     */
+    public String haeEsiintymat(int kentta) {
+        int esiintymat = 0;
+        String nimi = "";
+        
+        for (int i = 0; i < lkm; i++) {
+            int luku = 0;
+            for (int j = i; j < lkm; j++) {
+                if (!"".equals(alkiot[i].getKentta(kentta)) && alkiot[i].getKentta(kentta).equals(alkiot[j].getKentta(kentta))) {
+                    luku++;
+                    if (luku > esiintymat) {
+                        esiintymat = luku;
+                        nimi = alkiot[j].getKentta(kentta);
+                    }
+                }
+            }
+        }
+        return (nimi);
+    }
+    
+    
+    /**
+     * Laskee suurimman arvon kentän perusteella
+     * @param kentta kentta jota vertaillaan
+     * @return palauttaa kirjan nimen
+     */
+    public String laskeSuurin(int kentta) {
+        int pisin = 0;
+        String nimi = "";
+
+        for (int i = 0; i < lkm; i++) {
+            StringBuilder sb = new StringBuilder(alkiot[i].getKentta(kentta));
+            int luku = Mjonot.erotaInt(sb, 0);
+            if (luku > pisin) {
+                pisin = luku;
+                nimi = alkiot[i].getNimi();
+            }
+        }
+        return nimi;
+    }
+
+
+    /**
+     * Laskee kirjaston tilastoja
+     * @param ps teitovirta johon tulostetaan
+     */
+    public void laskeTilastot(PrintStream ps) {
+       ps.println("Kirjoja on kirjastossa: " + lkm);
+       
+       String kirjailija = haeEsiintymat(1);
+       ps.println("Eniten kirjoja on kirjoittanut: " + kirjailija);   
+       
+       String genre = haeEsiintymat(7);
+       ps.println("Suosituin genre on: " + genre);
+       
+       String enitenSivuja = laskeSuurin(6);
+       ps.println("Pisin kirja on: " + enitenSivuja);
+       
+       String julkaistu = laskeSuurin(4);
+       ps.println("Tuorein julkasitu kirja on: " + julkaistu);
     }
 }
