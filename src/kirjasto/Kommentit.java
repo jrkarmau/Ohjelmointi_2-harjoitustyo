@@ -88,33 +88,34 @@ public class Kommentit {
      * @param hakemisto tiedoston hakemisto
      * @throws SailoException jos lukeminen epäonnistuu
      * @example
-     * <pre name="test">
-     *  #THROWS SailoException
+     * <pre name="test_tiedosto">
+     * #THROWS SailoException 
+     * #import java.io.File;
      *  Kommentit kommentit = new Kommentit();
-     *  Kommentti kom1 = new Kommentti(); kom1.taytaKommentinTiedot(2);
-     *  Kommentti kom2 = new Kommentti(); kom2.taytaKommentinTiedot(1);
-     *  Kommentti kom3 = new Kommentti(); kom3.taytaKommentinTiedot(2); 
-     *  Kommentti kom4 = new Kommentti(); kom4.taytaKommentinTiedot(1); 
-     *  Kommentti kom5 = new Kommentti(); kom5.taytaKommentinTiedot(2); 
-     *  String tiedNimi = "testikirjasto";
-     *  File ftied = new File(tiedNimi + ".dat");
+     *  Kommentti kom21 = new Kommentti(); kom21.taytaKommentinTiedot(2);
+     *  Kommentti kom11 = new Kommentti(); kom11.taytaKommentinTiedot(1);
+     *  Kommentti kom22 = new Kommentti(); kom22.taytaKommentinTiedot(2); 
+     *  Kommentti kom12 = new Kommentti(); kom12.taytaKommentinTiedot(1); 
+     *  Kommentti kom23 = new Kommentti(); kom23.taytaKommentinTiedot(2); 
+     *  String tiedNimi = "testikirjasto.dat";
+     *  File ftied = new File(tiedNimi);
      *  ftied.delete();
      *  kommentit.lueTiedostosta(tiedNimi); #THROWS SailoException
-     *  kommentit.lisaa(kom1);
-     *  kommentit.lisaa(kom2);
-     *  kommentit.lisaa(kom3);
-     *  kommentit.lisaa(kom4);
-     *  kommentit.lisaa(kom5);
+     *  kommentit.lisaa(kom21);
+     *  kommentit.lisaa(kom11);
+     *  kommentit.lisaa(kom22);
+     *  kommentit.lisaa(kom12);
+     *  kommentit.lisaa(kom23);
      *  kommentit.tallenna();
      *  kommentit = new Kommentit();
      *  kommentit.lueTiedostosta(tiedNimi);
-     *  ArrayList<Kommentti> testiKom = kommentit.annaKommentit(2);
-     *  Iterator<Kommentti> i = testiKom.iterator();
-     *  i.next().toString() === kom1.toString();
-     *  i.next().toString() === kom3.toString();
-     *  i.next().toString() === kom5.toString();
+     *  ArrayList<Kommentti> koms = kommentit.annaKommentit(2);
+     *  Iterator<Kommentti> i = koms.iterator();
+     *  i.next().toString() === kom21.toString();
+     *  i.next().toString() === kom22.toString();
+     *  i.next().toString() === kom23.toString();
      *  i.hasNext() === false;
-     *  kommentit.lisaa(kom5);
+     *  kommentit.lisaa(kom23);
      *  kommentit.tallenna();
      *  ftied.delete() === true;
      * </pre>
@@ -131,6 +132,7 @@ public class Kommentit {
                 lisaa(kommentti);
             }
             muutettu = false;
+            fi.close();
         } catch (FileNotFoundException e) {
             throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
         }
@@ -155,7 +157,6 @@ public class Kommentit {
     }
 
     
-    
     /**
      * Tallentaa kirjaston kommentit tiedostoon
      * tiedoston muoto on:
@@ -165,6 +166,42 @@ public class Kommentit {
      * </pre>
      * @param tiedostonNimi tallennettavan tiedoston nimi
      * @throws SailoException jos tallennus epäonnistuu
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *  String tiedNimi = "testikirjasto.dat";
+     *  File ftied = new File(tiedNimi);
+     *  ftied.delete();
+     *  Kommentit kommentit = new Kommentit();
+     *  Kommentti kom21 = new Kommentti(); kom21.taytaKommentinTiedot(2);
+     *  Kommentti kom11 = new Kommentti(); kom11.taytaKommentinTiedot(1);
+     *  Kommentti kom22 = new Kommentti(); kom22.taytaKommentinTiedot(2); 
+     *  Kommentti kom12 = new Kommentti(); kom12.taytaKommentinTiedot(1); 
+     *  Kommentti kom23 = new Kommentti(); kom23.taytaKommentinTiedot(2); 
+     *  kommentit.lisaa(kom21);
+     *  kommentit.lisaa(kom11);
+     *  kommentit.lisaa(kom22);
+     *  kommentit.lisaa(kom12);
+     *  kommentit.lisaa(kom23);
+     *  kommentit.tallenna(tiedNimi);
+     *  kommentit = new Kommentit();
+     *  kommentit.lueTiedostosta(tiedNimi);
+     *  ArrayList<Kommentti> koms = kommentit.annaKommentit(2);
+     *  Iterator<Kommentti> i = koms.iterator();
+     *  i.next().toString() === kom21.toString();
+     *  i.next().toString() === kom22.toString();
+     *  i.next().toString() === kom23.toString();
+     *  i.hasNext() === false;
+     *  kommentit.lisaa(kom23);
+     *  ftied = new File(tiedNimi);
+     *  kommentit.tallenna(tiedNimi);
+     *  kommentit = new Kommentit();
+     *  kommentit.lueTiedostosta(tiedNimi);
+     *  koms = kommentit.annaKommentit(2);
+     *  koms.size() === 4;
+     *  ftied.delete() === true;
+     * </pre>
      */
     public void tallenna(String tiedostonNimi) throws SailoException {
         if (!muutettu) return;
@@ -179,7 +216,6 @@ public class Kommentit {
         }
         muutettu = false;
     }
-    
     
     
     /**
@@ -230,6 +266,27 @@ public class Kommentit {
     /**
      * Lisää uuden kommentin
      * @param kom kommentti joka lisätään
+     * @example
+     * <pre name="test">
+     *   #import java.util.*;
+     *   Kommentit kommentit = new Kommentit();
+     *   Kommentti kom11 = new Kommentti(2); kommentit.lisaa(kom11);
+     *   Kommentti kom22 = new Kommentti(1); kommentit.lisaa(kom22); 
+     *   Kommentti kom33 = new Kommentti(2); kommentit.lisaa(kom33); 
+     *   Kommentti kom44 = new Kommentti(1); kommentit.lisaa(kom44); 
+     *   Kommentti kom55 = new Kommentti(2); kommentit.lisaa(kom55); 
+     *   Kommentti kom66 = new Kommentti(5); kommentit.lisaa(kom66); 
+     *   List<Kommentti> loytyneet;
+     *   loytyneet = kommentit.annaKommentit(3);
+     *   loytyneet.size() === 0;
+     *   loytyneet = kommentit.annaKommentit(1);
+     *   loytyneet.size() === 2;
+     *   loytyneet.get(0) == kom22 === true;
+     *   loytyneet.get(1) == kom44 === true; 
+     *   loytyneet = kommentit.annaKommentit(5);
+     *   loytyneet.size() === 1;
+     *   loytyneet.get(0) == kom66 === true; 
+     * </pre>
      */
     public void lisaa(Kommentti kom) {
         alkiot.add(kom);
@@ -248,8 +305,29 @@ public class Kommentit {
     /**
      * korvaa kommentin muutetulla kommentilla ja jos ei löydy tietorakenteesta lisää sen.
      * @param kommentti kommentti joka tallennetaan
+     * @example
+     * <pre name="test">
+     *   Kommentit kommentit = new Kommentit();
+     *   Kommentti kom11 = new Kommentti(2); kommentit.lisaa(kom11);
+     *   Kommentti kom22 = new Kommentti(2); kommentit.lisaa(kom22); 
+     *   kom11.parse("1  | 2 |  testi1  |  tekstiä1  ");
+     *   kom22.parse("2  | 2 |  testi2  |  tekstiä2  ");
+     *   Kommentti kom33 = new Kommentti(2);
+     *   kom33.parse("3  | 2 |  testi3  |  tekstiä3  "); 
+     *   Kommentti kom44 = new Kommentti(2);
+     *   kom44.parse("1  | 2 |  testi4  |  tekstiä4  "); 
+     *   List<Kommentti> loytyneet;
+     *   loytyneet = kommentit.annaKommentit(2);
+     *   loytyneet.get(0).getOtsikko() === "testi1";
+     *   kommentit.korvaaTaiLisaa(kom33);
+     *   loytyneet = kommentit.annaKommentit(2);
+     *   loytyneet.size() === 3;
+     *   kommentit.korvaaTaiLisaa(kom44);
+     *   loytyneet = kommentit.annaKommentit(2);
+     *   loytyneet.get(0).getOtsikko() === "testi4";
+     * </pre>
      */
-    public void korvaaTaiLisaa(Kommentti kommentti) {
+    public void korvaaTaiLisaa(Kommentti kommentti) {    
         int id = kommentti.getKommentinID();
 
         for (Kommentti kom : alkiot) {
@@ -263,17 +341,32 @@ public class Kommentit {
         lisaa(kommentti);
     }
     
-    /**
-     * Poistaa yhden kommentin
-     */
-    public void poistaKommentti() {
-        //
-    }
-    
 
     /**
      * Poistaa kaikki kirjan kommentit
      * @param kirjanID kirja jonka kommentit poistetaan
+     * @example
+     * <pre name="test">
+     *   #import java.util.*;
+     *   Kommentit kommentit = new Kommentit();
+     *   Kommentti kom11 = new Kommentti(2); kommentit.lisaa(kom11);
+     *   Kommentti kom22 = new Kommentti(1); kommentit.lisaa(kom22); 
+     *   Kommentti kom33 = new Kommentti(2); kommentit.lisaa(kom33); 
+     *   Kommentti kom44 = new Kommentti(1); kommentit.lisaa(kom44); 
+     *   Kommentti kom55 = new Kommentti(2); kommentit.lisaa(kom55); 
+     *   Kommentti kom66 = new Kommentti(5); kommentit.lisaa(kom66); 
+     *   List<Kommentti> loytyneet;
+     *   loytyneet = kommentit.annaKommentit(1);
+     *   loytyneet.size() === 2;
+     *   kommentit.poistaKirjanKommentit(1);
+     *   loytyneet = kommentit.annaKommentit(1);
+     *   loytyneet.size() === 0;
+     *   loytyneet = kommentit.annaKommentit(5);
+     *   loytyneet.size() === 1;
+     *   kommentit.poistaKirjanKommentit(5);
+     *   loytyneet = kommentit.annaKommentit(5);
+     *   loytyneet.size() === 0;
+     * </pre>
      */
     public void poistaKirjanKommentit(int kirjanID) {
         int n = 0;
@@ -292,6 +385,26 @@ public class Kommentit {
     /**
      * Poistaa yhden kommentin 
      * @param kommentinID kommentin id joka poistetaan
+     * @example
+     * <pre name="test">
+     *   #import java.util.*;
+     *   Kommentit kommentit = new Kommentit();
+     *   Kommentti kom11 = new Kommentti(2); kommentit.lisaa(kom11);
+     *   Kommentti kom22 = new Kommentti(1); kommentit.lisaa(kom22); 
+     *   Kommentti kom33 = new Kommentti(2); kommentit.lisaa(kom33);
+     *   kom11.parse("4  | 2 |  otsikko2  |  tekstiätekstiä  ");
+     *   kom22.parse("5  | 2 |  otsikko21  |  tekstiätekstiä  ");
+     *   kom33.parse("3  | 2 |  otsikko212  |  tekstiätekstiä  ");
+     *   List<Kommentti> loytyneet;
+     *   loytyneet = kommentit.annaKommentit(2);
+     *   loytyneet.size() === 3;
+     *   kommentit.poistaKommentti(5);
+     *   loytyneet = kommentit.annaKommentit(2);
+     *   loytyneet.size() === 2;
+     *   kommentit.poistaKommentti(4);
+     *   loytyneet = kommentit.annaKommentit(2);
+     *   loytyneet.size() === 1;
+     * </pre>
      */
     public void poistaKommentti(int kommentinID) {
         for (Kommentti kom : alkiot) {
