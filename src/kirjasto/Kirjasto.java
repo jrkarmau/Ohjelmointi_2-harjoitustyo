@@ -16,8 +16,7 @@ import fi.jyu.mit.fxgui.Dialogs;
  *   pyytämällä apua avustajiltaan 
  * 
  * @author jrkarmau
- * @version 9.3.2021
- *
+ * @version 21.4.2021
  */
 public class Kirjasto {
 
@@ -104,6 +103,7 @@ public class Kirjasto {
         kommentit.poistaKirjanKommentit(kirja.getKirjanID());
     }
     
+    
     /**
      * Poistaa yhden kommentin
      * @param kommentti kommentti joka poistetaan
@@ -154,6 +154,12 @@ public class Kirjasto {
     /**
      * Asettaa tiedostojen perusnimet
      * @param nimi uusi nimi
+     * @example
+     * <pre name="test">
+     *  Kirjasto kirjasto = new Kirjasto();
+     *  kirjasto.setTiedosto(testi);
+     *  
+     * </pre>
      */
     public void setTiedosto(String nimi) {
         File dir = new File(nimi);
@@ -264,6 +270,5 @@ public class Kirjasto {
      */
     public void laskeTilastot(PrintStream ps) {
         kirjat.laskeTilastot(ps);
-        
     }
 }

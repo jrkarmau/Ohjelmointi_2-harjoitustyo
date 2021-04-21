@@ -44,6 +44,7 @@ public class Kommentti implements Cloneable {
     
     
     /**
+     * Ottaa kommentin tiedot merkkijonosta jossa tiedot on eroteltu tolppamerkillä
      * @param rivi rivi josta kommentin tiedot otetaan
      * @example
      * <pre name="test">
@@ -198,13 +199,12 @@ public class Kommentti implements Cloneable {
     
     
     /**
-     * Asettaa uuden tekstin kommenttiin
+     * Asettaa uuden tekstin
      * @param s tekstin sisältö
      */
     public void setTeksti(String s) {
         teksti = s;
     }
-    
     
     
     /**

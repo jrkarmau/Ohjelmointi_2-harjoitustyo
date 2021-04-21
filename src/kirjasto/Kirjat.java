@@ -18,8 +18,7 @@ import fi.jyu.mit.ohj2.WildChars;
  * - osaa etsiä ja lajitella 
  * 
  * @author jrkarmau
- * @version 9.3.2021
- *
+ * @version 21.4.2021
  */
 public class Kirjat {
 

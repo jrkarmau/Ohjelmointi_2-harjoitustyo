@@ -149,7 +149,7 @@ public class Kommentit {
 
 
     /**
-     * Asettaa tiedoston perusnimen ilman tarkenninta
+     * Asettaa tiedoston perusnimen
      * @param nimi tallennustiedoston perusnimi
      */
     public void setTiedostonPerusNimi(String nimi) {
