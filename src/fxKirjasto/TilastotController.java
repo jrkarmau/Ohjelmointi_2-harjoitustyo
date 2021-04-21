@@ -6,11 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
-
 /**
  * Hoitaa tilastojen näyttämiseen liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
+ * @version 21.4.2021
  */
 public class TilastotController implements ModalControllerInterface<String> {
     
@@ -42,7 +41,7 @@ public class TilastotController implements ModalControllerInterface<String> {
     
 
     /**
-     * @return alue johon tulostetaan
+     * @return alue johon tilastot näytetään
      */
     public TextArea getTextArea() {
         return tilastoAlue;

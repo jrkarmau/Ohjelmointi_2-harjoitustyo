@@ -22,7 +22,7 @@ import kirjasto.SailoException;
 /**
  * Hoitaa pääikkunaan liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
+ * @version 21.4.2021
  */
 public class KirjastoGUIController implements Initializable {
     
@@ -111,10 +111,9 @@ public class KirjastoGUIController implements Initializable {
         
  
     /**
-     * Tyhjentää kirja ja kommenttivalitsimet sekä tekstikentät ja alustaa kuuntelijat
+     * Tyhjentää kirja- ja kommenttivalitsimet sekä tekstikentät ja alustaa kuuntelijat ja tekstikenttätaulukon
      */
     private void alusta() {
-        
         chooserKirjat.clear();
         chooserKirjat.addSelectionListener(e -> naytaKirja());
         chooserKommentit.addSelectionListener(e -> kommenttiKohdalla());
@@ -126,12 +125,12 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Poistaa valitun kirjan
+     * Kysyy käyttäjältä varmistuksen ja poistaa valitun kirjan
      */
     private void poistaKirja() {
         Kirja kirja = kirjaKohdalla;
         if (kirja == null) return;
-        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko Kirja: " + kirja.getNimi(), "Kyllä", "Ei") ) return;
+        if (!Dialogs.showQuestionDialog("Poisto", "Poistetaanko Kirja: " + kirja.getNimi(), "Kyllä", "Ei")) return;
         kirjasto.poistaKirja(kirja);
         int index = chooserKirjat.getSelectedIndex();
         hae(0);
@@ -150,13 +149,16 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Näyttää valitun kommentin sisällön erillisessä ikkunassa
+     * Asettaa valitun kommenttin kohdalla olevaksi kommentiksi
      */
     private void kommenttiKohdalla() {
         kommenttiKohdalla = chooserKommentit.getSelectedObject();      
     }
     
     
+    /**
+     * Näyttää valitun kirjan tiedot tietokentissä sekä näyttää kirjan kommentit
+     */
     private void naytaKirja() {        
         kirjaKohdalla = chooserKirjat.getSelectedObject();        
         if (kirjaKohdalla == null) return;
@@ -164,11 +166,15 @@ public class KirjastoGUIController implements Initializable {
         naytaKommentit(kirjaKohdalla);
     }
     
-    
+
+    /**
+     * Näyttää kirjan kommentit valitsimessa
+     * @param kirja jonka kommentit näytetään
+     */
     private void naytaKommentit(Kirja kirja) {
         chooserKommentit.clear();
         if (kirja == null) return;
-        List<Kommentti> kommentit = kirjasto.annaKommentit(kirja); 
+        List<Kommentti> kommentit = kirjasto.annaKommentit(kirja);
         if (kommentit.size() == 0) return;
         for (Kommentti kom : kommentit) {
             chooserKommentit.add(kom.getOtsikko(), kom);
@@ -176,6 +182,10 @@ public class KirjastoGUIController implements Initializable {
     }
     
     
+    /**
+     * Avaa kirjan muokkausdialogin ja päivittää uudet tiedot kirjaan.
+     * jos kirjaa ei ole enää olemassa luo uuden kirjan
+     */
     private void muokkaaKirja() {
         if (kirjaKohdalla == null) return;
         Kirja kirja;
@@ -191,10 +201,11 @@ public class KirjastoGUIController implements Initializable {
         } catch (SailoException se) {
             System.err.println(se.getMessage() + " Ongelmia tietorakenteessa");
         }
-
     }
     
-
+    /**
+     * Aukaisee kommentin muokkausdialogin ja päivittää kommentin tiedot
+     */
     private void muokkaaKommentti() {
         if (kommenttiKohdalla == null) return;
         Kommentti kommentti;
@@ -210,39 +221,35 @@ public class KirjastoGUIController implements Initializable {
         } catch (SailoException se) {
             System.err.println(se.getMessage() + " Ongelmia tietorakenteessa");
         }
-
     }
 
 
     /**
      * Alustaa kirjaston lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta kirjaston tiedot luetaan
-     * @return null jo sonnistuu, muuten virhe-viesti
+     * @return false jos epäonnistuu true jos onnistuu
      */
     public Boolean lueTiedosto(String nimi) {
-
         if (!kirjasto.tarkistaTiedosto(nimi)) {
             return false;
         }
-       
-            kirjastonNimi = nimi;
-            try {
-                kirjasto.lueTiedostosta(nimi);
-                hae(0);
-                return true;
-            } catch (SailoException e) {
-                hae(0);
-                //String virhe = e.getMessage();
-                //if (virhe != null)
-                    //Dialogs.showMessageDialog(virhe);
-                return false;
-            }
-        
+        kirjastonNimi = nimi;
+        try {
+            kirjasto.lueTiedostosta(nimi);
+            hae(0);
+            return true;
+        } catch (SailoException e) {
+            hae(0);
+            String virhe = e.getMessage();
+            if (virhe != null)
+                Dialogs.showMessageDialog(virhe);
+            return false;
+        }
     }
 
     
     /**
-     * Tietojen tallennus
+     * Tallentaa jos tehtyjä muutoksia
      * @return null jos onnistuu, muuten virhe-ilmoitus
      */
     private String tallenna() {
@@ -257,7 +264,7 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Lisätään Kirjastoon uusi kirja
+     * Lisää kirjastoon uuden kirjan ja päivittää kirjavalitsimen
      */
     private void uusiKirja() {
         try {
@@ -274,7 +281,7 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Lisää kirjaan uuden kommentin
+     * Lisää kirjaan uuden kommentin ja päivittää kommenttivalitsimen
      */
     public void uusiKommentti() {  
         if (kirjaKohdalla == null) return;
@@ -289,17 +296,8 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Tarkistaa onko tallennus tehty
-     * @return palauttaa true jos tallennettu muuten false
-     */
-    public boolean voikoSulkea() {
-        tallenna();
-        return true;
-    }
-    
-    /**
-     * Hakee kirjojen tiedot listaan
-     * @param kirjanro
+     * Hakee kirjat valitsimeen hakusanan ja hakuehdon perusteella
+     * @param kirjanNumero oletuskirjan numero
      */
     private void hae(int kirjanNumero) {
         int kirjanro = kirjanNumero;
@@ -313,7 +311,7 @@ public class KirjastoGUIController implements Initializable {
         if (hakusana.indexOf('*') < 0) hakusana = "*" + hakusana + "*";
 
         chooserKirjat.clear();
-        
+
         int indeksi = 0;
         ArrayList<Kirja> kirjat;
         try {
@@ -326,21 +324,23 @@ public class KirjastoGUIController implements Initializable {
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Kirjojen haussa ongelmia");
         }
-        chooserKirjat.setSelectedIndex(indeksi); // tästä tulee muutosviesti
+        chooserKirjat.setSelectedIndex(indeksi);
     }
 
     
     /**
-     * Asetetaan käytettävä kerho
+     * Asetetaan käytettävän kirjaston 
      * @param kirjasto jota käytetään 
      */
     public void setKirjasto(Kirjasto kirjasto) {
         this.kirjasto = kirjasto;
     }
     
+    
     /**
-     * Kysytään uusi kirjaston nimi ja avataan se
-     * @return boolean onnistuiko avaus
+     * Tyhjentää kaikki kentät ja kysyy uuden kirjaston. Jos kirjastoa ei löydy
+     * kysyy tehdäänkö uusi kirjasto
+     * @return true jos avaus onnistuu false jos ei haluta luoda uutta kirjastoa
      */
     public boolean avaa() {
         chooserKirjat.clear();
@@ -348,15 +348,15 @@ public class KirjastoGUIController implements Initializable {
         for (TextField field : edits) {
             field.clear();
         }
-        
         String uusinimi = AloitusController.kysyNimi(null, kirjastonNimi);
+        if (uusinimi == null) return false;
         return lueTiedosto(uusinimi);
     }
     
     
     /**
-     * Tulostaa kirjat listasta
-     * @param tulostusAlue alue johon tulsotetaan
+     * Tulostaa kirjat kirjavalitsimesta
+     * @param tulostusAlue alue johon kirjan tiedot tulostetaan
      */
     private void tulostaKirjat(TextArea tulostusAlue) {
         try (PrintStream ps = TextAreaOutputStream.getTextPrintStream(tulostusAlue)) {
@@ -368,7 +368,11 @@ public class KirjastoGUIController implements Initializable {
         }
     }
     
-
+    
+    /**
+     * Laskee kirjastossa olevien kirjojen tilastoja
+     * @param tArea alue johon tilastot tulostetaan
+     */
     private void laskeTilastot(TextArea tArea) {
         try(PrintStream ps = TextAreaOutputStream.getTextPrintStream(tArea)) {
             ps.println("Kirjastosi tilastot:\n");  
@@ -378,7 +382,7 @@ public class KirjastoGUIController implements Initializable {
     
     
     /**
-     * Tulostaa yhden kirjan tiedot tulostusalueelle
+     *  Tulostaa yhden kirjan tiedot tulostusalueelle
      *  @param ps tietovirta johon tulostetaan
      *  @param kirja jonka tiedot tulostetaan
      */

@@ -15,7 +15,7 @@ import kirjasto.Kommentti;
 /**
  * Hoitaa kommentin lisäämiseen ja muokkaamiseen liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
+ * @version 21.4.2021
  */
 public class LisaaKommenttiController implements ModalControllerInterface<Kommentti>, Initializable {
     
@@ -29,7 +29,9 @@ public class LisaaKommenttiController implements ModalControllerInterface<Kommen
         ModalController.closeStage(otsikko);
     }
 
-    
+    /**
+     * Asettaa uudet tekstit kommentin kenttiin ja sulkee ikkunan
+     */
     @FXML private void handleTallenna() {
         kommenttiKohdalla.setOtsikko(otsikko.getText());       
         kommenttiKohdalla.setTeksti(teksti.getText());
@@ -65,7 +67,7 @@ public class LisaaKommenttiController implements ModalControllerInterface<Kommen
     
     /**
      * Näyttää kommentin 
-     * @param kommentti kommentti jota muokataan
+     * @param kommentti jota muokataan
      */
     public void naytaKommentti(Kommentti kommentti) {
         if (kommentti == null) return;

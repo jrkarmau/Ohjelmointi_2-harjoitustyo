@@ -3,8 +3,7 @@ package kirjasto;
 /**
  * poikkeusluokka tietorakenteesta aiheutuville poikkeuksille
  * @author jrkarmau
- * @version 9.3.2021
- *
+ * @version 21.4.2021
  */
 public class SailoException extends Exception {
     private static final long serialVersionUID = 1L;

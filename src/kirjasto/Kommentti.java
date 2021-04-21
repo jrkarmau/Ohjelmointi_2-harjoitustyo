@@ -13,7 +13,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * - osaa laittaa merkkijonon i:neksi kentäksi
  * 
  * @author jrkarmau
- * @version 10.3.2021
+ * @version 21.4.2021
  */
 public class Kommentti implements Cloneable {
 
@@ -32,6 +32,14 @@ public class Kommentti implements Cloneable {
         Kommentti kom1 = new Kommentti();
         kom1.taytaKommentinTiedot(1);
         kom1.tulosta(System.out);
+    }
+    
+    
+    /**
+     * Alustaa uuden kommentin
+     */
+    public Kommentti() {
+        //
     }
     
     
@@ -57,7 +65,6 @@ public class Kommentti implements Cloneable {
         kirjaID  = Mjonot.erota(sb, '|', getKirjanID());
         otsikko  = Mjonot.erota(sb, '|', otsikko);
         teksti   = Mjonot.erota(sb, '|', teksti);  
-
     }
     
     
@@ -73,6 +80,16 @@ public class Kommentti implements Cloneable {
     /**
      * tekee identtisen kopion kommentista
      * @return kloonattu kommentti
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Kommentti kommentti = new Kommentti();
+     *   kommentti.parse("4  | 2 |  otsikko212  |  tekstiätekstiä  ");
+     *   Kommentti kopio = kommentti.clone();
+     *   kopio.toString() === kommentti.toString();
+     *   kommentti.parse("2  | 4 |  123  |  sdfsdf  ");
+     *   kopio.toString().equals(kommentti.toString()) === false;
+     * </pre>
      */
     @Override
     public Kommentti clone() throws CloneNotSupportedException {
@@ -88,12 +105,20 @@ public class Kommentti implements Cloneable {
      */
     private void setID(int id) {
         kommenttiID = id;
-        if (kommenttiID >= seuraavaID) seuraavaID = kommenttiID + 1;   
+        if (kommenttiID >= seuraavaID) seuraavaID = kommenttiID + 1;  
     } 
     
     
     /**
      * Muuttaa kommentin tiedot tiedostoon kirjoitettavaan muotoon
+     * @example
+     * <pre name="test">
+     *  Kommentti kom = new Kommentti();
+     *  kom.parse("4  | 2 |  otsikko212  |  tekstiätekstiä  ");
+     *  kom.toString() === "4|2|otsikko212|tekstiätekstiä|";
+     *  kom.parse("56  | 23 |  otsikko  |  teksti  ");
+     *  kom.toString() === "56|23|otsikko|teksti|";
+     * </pre>
      */
     @Override
     public String toString() {
@@ -201,7 +226,7 @@ public class Kommentti implements Cloneable {
     
     
     /**
-     * Täyttää kommentin sisällön 
+     * Täyttää kommentin sisällön
      * @param id kirjan ID-numero
      */
     public void taytaKommentinTiedot(int id) {
@@ -210,22 +235,19 @@ public class Kommentti implements Cloneable {
         teksti = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " + Kanta.rand(1000,9999) ;
     }
 
-
-    /**
-     * Alustaa uuden kommentin
-     */
-    public Kommentti() {
-        //
-    }
-    
     
     /**
      * Alustaa tietyn kirjan kommentin
      * @param kirjaID kirja jolle kommentti alustetaan
+     * @example
+     * <pre name="test">"
+     *  Kommentti kom = new Kommentti(5);
+     *  kom.getKirjanID() === 5;
+     *  Kommentti kom2 = new Kommentti(12);
+     *  kom2.getKirjanID() === 12;
+     * </pre>
      */
     public Kommentti(int kirjaID) {
         this.kirjaID = kirjaID;
     }
-
-
 }

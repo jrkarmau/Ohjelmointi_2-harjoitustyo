@@ -15,7 +15,7 @@ import kirjasto.Kirja;
 /**
  * Hoitaa kirjan lisäämiseen liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
+ * @version 21.4.2021
  */
 public class LisaaKirjaController implements ModalControllerInterface<Kirja>, Initializable {
 
@@ -37,7 +37,9 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
         ModalController.closeStage(labelVirhe);
     }
 
-
+    /**
+     * käsittelee ikkunasta poistumisen ilmoittaa virheestä jo snimi on tyhjä
+     */
     @FXML private void handleTallenna() {
         if (kirjaKohdalla != null && kirjaKohdalla.getNimi().trim().equals("")) {
             naytaVirhe("Nimi ei saa olla tyhjä");
@@ -70,12 +72,11 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         alusta();
-
     }
 
 
     /**
-     * Alustaa uuden textfield taulukon käynnistyessä
+     * Alustaa uuden textfield taulukon käynnistyessä ja asettaa kuuntelijan jos muutoksia tapahtuu
      */
     private void alusta() {
         edits = new TextField[] { editNimi, editKirjailija, editKieli,
@@ -91,7 +92,7 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
 
 
     /**
-     * käsittelee jäsenen kenttään tullut muutos
+     * käsittelee jäsenen kenttään tulleet muutokset ilmoittaa virheestä jos kenttään tulee epäsopiva tieto
      * @param k kentän numero
      * @param edit muuttunut kenttä
      */
@@ -115,7 +116,7 @@ public class LisaaKirjaController implements ModalControllerInterface<Kirja>, In
 
 
     /**
-     * Näyttää virheen dialogissa
+     * Näyttää virheen
      * @param virhe virheen teksti
      */
     private void naytaVirhe(String virhe) {

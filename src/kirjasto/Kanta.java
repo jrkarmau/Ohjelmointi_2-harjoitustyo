@@ -3,8 +3,7 @@ package kirjasto;
 /**
  * Apuluokka kirjaston käyttöä varten
  * @author jrkarmau
- * @version 10.3.2021
- *
+ * @version 21.4.2021
  */
 public class Kanta {
 

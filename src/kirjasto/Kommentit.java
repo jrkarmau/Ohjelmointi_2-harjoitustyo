@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-
 /**
  *- pitää yllä varsinaista kommenttirekisteriä, eli 
  *  osaa lisätä ja poistaa kommentin                
@@ -18,7 +17,7 @@ import java.util.Scanner;
  *- osaa etsiä ja lajitella 
  * 
  * @author jrkarmau
- * @version 10.3.2021
+ * @version 21.4.2021
  */
 public class Kommentit {
     
@@ -33,7 +32,6 @@ public class Kommentit {
     public static void main(String[] args) {
         
         Kommentit kommentit = new Kommentit();
-        
         try {
             kommentit.lueTiedostosta("kirjasto"); 
         } catch (SailoException ex) {
@@ -83,6 +81,60 @@ public class Kommentit {
     public void lueTiedostosta() throws SailoException {
         lueTiedostosta(getTiedostonPerusNimi());
     }
+    
+    
+    /**
+     * Lukee kirjan kommentit tiedostosta
+     * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos lukeminen epäonnistuu
+     * @example
+     * <pre name="test">
+     *  #THROWS SailoException
+     *  Kommentit kommentit = new Kommentit();
+     *  Kommentti kom1 = new Kommentti(); kom1.taytaKommentinTiedot(2);
+     *  Kommentti kom2 = new Kommentti(); kom2.taytaKommentinTiedot(1);
+     *  Kommentti kom3 = new Kommentti(); kom3.taytaKommentinTiedot(2); 
+     *  Kommentti kom4 = new Kommentti(); kom4.taytaKommentinTiedot(1); 
+     *  Kommentti kom5 = new Kommentti(); kom5.taytaKommentinTiedot(2); 
+     *  String tiedNimi = "testikirjasto";
+     *  File ftied = new File(tiedNimi + ".dat");
+     *  ftied.delete();
+     *  kommentit.lueTiedostosta(tiedNimi); #THROWS SailoException
+     *  kommentit.lisaa(kom1);
+     *  kommentit.lisaa(kom2);
+     *  kommentit.lisaa(kom3);
+     *  kommentit.lisaa(kom4);
+     *  kommentit.lisaa(kom5);
+     *  kommentit.tallenna();
+     *  kommentit = new Kommentit();
+     *  kommentit.lueTiedostosta(tiedNimi);
+     *  ArrayList<Kommentti> testiKom = kommentit.annaKommentit(2);
+     *  Iterator<Kommentti> i = testiKom.iterator();
+     *  i.next().toString() === kom1.toString();
+     *  i.next().toString() === kom3.toString();
+     *  i.next().toString() === kom5.toString();
+     *  i.hasNext() === false;
+     *  kommentit.lisaa(kom5);
+     *  kommentit.tallenna();
+     *  ftied.delete() === true;
+     * </pre>
+     */
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+        setTiedostonPerusNimi(hakemisto);
+
+        try (Scanner fi = new Scanner(new FileInputStream(getTiedostonPerusNimi()))) {
+            while (fi.hasNext()) {
+                String s = "";
+                s = fi.nextLine();
+                Kommentti kommentti = new Kommentti();
+                kommentti.parse(s);
+                lisaa(kommentti);
+            }
+            muutettu = false;
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
+        }
+    }
 
 
     /**
@@ -101,37 +153,15 @@ public class Kommentit {
     public void setTiedostonPerusNimi(String nimi) {
         tiedostonPerusNimi = nimi;
     }
-    
-    
-    /**
-     * Lukee kirjan kommentit tiedostosta
-     * @param hakemisto tiedoston hakemisto
-     * @throws SailoException jos lukeminen epäonnistuu
-     */
-    public void lueTiedostosta(String hakemisto) throws SailoException {
-        setTiedostonPerusNimi(hakemisto);
 
-        try (Scanner fi = new Scanner(new FileInputStream(getTiedostonPerusNimi()))) {
-            while (fi.hasNext()) {
-                String s = "";
-                s = fi.nextLine();
-                Kommentti kommentti = new Kommentti();
-                kommentti.parse(s);
-                lisaa(kommentti);
-            }
-            muutettu = false;
-        } catch (FileNotFoundException e) {
-            throw new SailoException("Ei saa luettua tiedostoa " + getTiedostonPerusNimi());
-        }
-    }
     
     
     /**
      * Tallentaa kirjaston kommentit tiedostoon
      * tiedoston muoto on:
      * <pre>
-     * 1|Kommentin otsikko| kommenttia kommenttia|
-     * 2|toisen Kommentin otsikko| kommenttia kommenttia kommenttia kommenttia|
+     *  1|Kommentin otsikko| kommenttia kommenttia|
+     *  2|toisen Kommentin otsikko| kommenttia kommenttia kommenttia kommenttia|
      * </pre>
      * @param tiedostonNimi tallennettavan tiedoston nimi
      * @throws SailoException jos tallennus epäonnistuu
@@ -187,7 +217,7 @@ public class Kommentit {
      *   loytyneet.get(0) == kom66 === true; 
      * </pre>
      */
-    public List<Kommentti> annaKommentit(int id) {
+    public ArrayList<Kommentti> annaKommentit(int id) {
         ArrayList<Kommentti> loydetyt = new ArrayList<Kommentti>();
         
         for (Kommentti kom : alkiot) {

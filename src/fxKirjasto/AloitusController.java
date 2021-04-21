@@ -7,15 +7,16 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
+ * Kysyy kirjaston nimen ja
  * hoitaa aloitusikkunaan liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
- *
+ * @version 21.4.2021
  */
 public class AloitusController implements ModalControllerInterface<String> {
     
     @FXML private TextField kirjastonNimi;
     private String vastaus = null;
+    
     
     @FXML private void handleCancel() {
         vastaus = null;
@@ -46,6 +47,7 @@ public class AloitusController implements ModalControllerInterface<String> {
     public void setDefault(String oletus) {
         kirjastonNimi.setText(oletus);
     }        
+    
     
     /**
      * Avaa kirjaston nimen kysymysikkunan

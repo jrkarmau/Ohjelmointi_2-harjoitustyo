@@ -8,23 +8,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.web.WebEngine;
 
-
 /**
  * Hoitaa tulostamiseen liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
+ * @version 21.4.2021
  */
 public class TulostaController implements ModalControllerInterface<String> {
     
     @FXML private Button okButton;
     @FXML private TextArea tulostusAlue;
     
-
+    
     @FXML private void handleOK() {
         ModalController.closeStage(okButton);
     }
     
-
+    
+    /**
+     * Hoitaa tulostustyön
+     */
     @FXML private void handleTulosta() {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null && job.showPrintDialog(null)) {
@@ -66,7 +68,7 @@ public class TulostaController implements ModalControllerInterface<String> {
     /**
      * Luo ja näyttää tulostusalueessa tekstin
      * @param tulostus tulostettava teksti
-     * @return tulostuscontroller jo starvitaan pyytää lisää tietoa
+     * @return tulostuscontroller jos tarvitaan pyytää lisää tietoa
      */
     public static TulostaController tulosta(String tulostus) {
         TulostaController tulostaCtrl = ModalController.showModeless(TulostaController.class.getResource("TulostaView.fxml"), "Tulostus", tulostus);

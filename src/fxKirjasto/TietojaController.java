@@ -12,14 +12,17 @@ import javafx.scene.control.Hyperlink;
 /**
  * Hoitaa tietoja ikkunaan liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 15.2.2021
+ * @version 21.4.2021
  *
  */
 public class TietojaController implements ModalControllerInterface<String> {
     
     @FXML private Hyperlink helpLinkki;
     
-
+    
+    /**
+     * Avaa työn suunnitelmasivun uuteen ikkunaan
+     */
     @FXML void handleApua() {
         try {
             Desktop.getDesktop().browse(new URL("https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/jrkarmau").toURI());

@@ -8,12 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
-
 /**
  * Kirjasto sovelluksen pääohjelma
- * käynnistää aloitusikkunan
+ * käynnistää aloitusikkunan kirjaston kysymistä varten
  * @author Jovan Karmakka (jrkarmau)
- * @version 26.1.2021
+ * @version 21.4.2021
  *
  */
 public class KirjastoMain extends Application {
@@ -25,11 +24,12 @@ public class KirjastoMain extends Application {
 		    final KirjastoGUIController kirjastoCtrl = (KirjastoGUIController)ldr.getController();  
 			final Scene scene = new Scene(root);                                                    
 			scene.getStylesheets().add(getClass().getResource("kirjasto.css").toExternalForm());
-			primaryStage.setScene(scene);			
-			primaryStage.setTitle("Kirjasto");
-			
+			primaryStage.setScene(scene);	
+	        primaryStage.setTitle("Kirjasto");
+
 			Kirjasto kirjasto = new Kirjasto();
 			kirjastoCtrl.setKirjasto(kirjasto);
+
 			if (!kirjastoCtrl.avaa()) Platform.exit();
 	        primaryStage.show();
 
