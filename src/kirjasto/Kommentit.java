@@ -88,7 +88,7 @@ public class Kommentit {
      * @param hakemisto tiedoston hakemisto
      * @throws SailoException jos lukeminen epäonnistuu
      * @example
-     * <pre name="test_tiedosto">
+     * <pre name="test">
      * #THROWS SailoException 
      * #import java.io.File;
      *  Kommentit kommentit = new Kommentit();
@@ -97,7 +97,7 @@ public class Kommentit {
      *  Kommentti kom22 = new Kommentti(); kom22.taytaKommentinTiedot(2); 
      *  Kommentti kom12 = new Kommentti(); kom12.taytaKommentinTiedot(1); 
      *  Kommentti kom23 = new Kommentti(); kom23.taytaKommentinTiedot(2); 
-     *  String tiedNimi = "testikirjasto.dat";
+     *  String tiedNimi = "testikommentit.dat";
      *  File ftied = new File(tiedNimi);
      *  ftied.delete();
      *  kommentit.lueTiedostosta(tiedNimi); #THROWS SailoException
@@ -170,7 +170,7 @@ public class Kommentit {
      * <pre name="test">
      * #THROWS SailoException 
      * #import java.io.File;
-     *  String tiedNimi = "testikirjasto.dat";
+     *  String tiedNimi = "testikommentit.dat";
      *  File ftied = new File(tiedNimi);
      *  ftied.delete();
      *  Kommentit kommentit = new Kommentit();

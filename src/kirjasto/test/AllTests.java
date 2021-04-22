@@ -14,6 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
     KirjaTest.class,
     KirjatTest.class,
+    KirjastoTest.class,
     KommentitTest.class,
     KommenttiTest.class })
 public class AllTests {

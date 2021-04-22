@@ -22,7 +22,7 @@ import kirjasto.SailoException;
 /**
  * Hoitaa pääikkunaan liittyvät toiminnot
  * @author Jovan Karmakka (jrkarmau)
- * @version 21.4.2021
+ * @version 22.4.2021
  */
 public class KirjastoGUIController implements Initializable {
     
@@ -135,6 +135,11 @@ public class KirjastoGUIController implements Initializable {
         int index = chooserKirjat.getSelectedIndex();
         hae(0);
         chooserKirjat.setSelectedIndex(index);
+        if (chooserKirjat.getSelectedIndex() < 0) {
+            for (TextField field : edits) {
+                field.clear();
+            }
+        }
     }
     
     
@@ -161,7 +166,8 @@ public class KirjastoGUIController implements Initializable {
      */
     private void naytaKirja() {        
         kirjaKohdalla = chooserKirjat.getSelectedObject();        
-        if (kirjaKohdalla == null) return;
+        if (kirjaKohdalla == null) return; 
+
         LisaaKirjaController.naytaKirja(edits, kirjaKohdalla);
         naytaKommentit(kirjaKohdalla);
     }
