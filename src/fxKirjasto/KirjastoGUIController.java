@@ -1,5 +1,6 @@
 package fxKirjasto;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -236,10 +237,16 @@ public class KirjastoGUIController implements Initializable {
      * @return false jos epäonnistuu true jos onnistuu
      */
     public Boolean lueTiedosto(String nimi) {
-        if (!kirjasto.tarkistaTiedosto(nimi)) {
-            return false;
+
+        File tiedosto = new File(nimi + "/kirjat.dat");
+        if (!tiedosto.exists()) {
+            if (!Dialogs.showQuestionDialog("Ei löydy", "Luodaanko uusi kirjasto: " + nimi, "Kyllä", "Ei")) {
+                return false;
+            }
         }
+        
         kirjastonNimi = nimi;
+        kirjasto.luoTiedostot(kirjastonNimi);
         try {
             kirjasto.lueTiedostosta(nimi);
             hae(0);

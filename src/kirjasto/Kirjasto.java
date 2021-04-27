@@ -6,8 +6,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.jyu.mit.fxgui.Dialogs;
-
 /**
  * - huolehtii Kirjat ja Kommentit - luokkien     
  *   välisestä yhteistyöstä ja välittää näitä tietoja 
@@ -467,17 +465,27 @@ public class Kirjasto {
 
 
     /**
-     * Tekee uudet kirjat ja kommentit tiedostot
+     * Tekee uudet kirjat ja kommentit tiedostot uuteen kansioon
      * @param nimi kansion nimi
-     * @return false jos perutaan true muuten
+     * @example
+     * <pre name="test">
+     *  #import java.nio.file.Files;
+     *  Kirjasto kirjasto = new Kirjasto();
+     *  File f = new File("testikansio");
+     *  File fKirjat = new File("testikansio/kirjat.dat");
+     *  File fKommentit = new File("testikansio/kommentit.dat");
+     *  f.exists() === false;
+     *  fKirjat.exists() === false;
+     *  fKommentit.exists() === false;
+     *  kirjasto.luoTiedostot("testikansio");
+     *  fKirjat.exists() === true;
+     *  fKommentit.exists() === true;
+     *  fKirjat.delete() === true;
+     *  fKommentit.delete() === true;
+     *  f.delete() === true;
+     * </pre>
      */
-    public boolean tarkistaTiedosto(String nimi) {
-        File tiedosto = new File(nimi + "/kirjat.dat");
-        if (!tiedosto.exists()) {
-            if (!Dialogs.showQuestionDialog("Ei löydy", "Luodaanko uusi kirjasto: " + nimi, "Kyllä", "Ei")) {
-                return false;
-            }
-        }
+    public void luoTiedostot(String nimi) {
         File kirjatFile = new File(nimi + "/kirjat.dat");
         File kommentitFile = new File(nimi + "/kommentit.dat");
 
@@ -488,7 +496,6 @@ public class Kirjasto {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-        return true;
     }
 
 
