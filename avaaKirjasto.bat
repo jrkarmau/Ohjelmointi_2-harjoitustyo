@@ -1,1 +1,0 @@
- start javaw --module-path c:\devel\javafx\lib --add-modules javafx.controls,javafx.fxml -jar kirjasto.jar
