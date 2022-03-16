@@ -2,11 +2,17 @@ Jyväskylän yliopiston Ohjelmointi 2 -kurssin harjoitustyö.
 
 After you have cloned the repo, you can start application by double clicking "avaaKirjasto.bat".
 
-!! Works only with Java version 17 !! 
+---------------------------------------------------------------------------------------------------------------
 
-Java can be downloaded from here:
+!! Works only with Java JDK version 17 !! 
+
+If you get an error "Kohdetta javaw ei löydy" or "Could not create the Java Vritual Machine"
+You have not installed Java properly or have wrong JDK version.
+
+Java JDK version 17 can be downloaded from here:
 https://www.oracle.com/java/technologies/downloads/#jdk17-windows
 
+---------------------------------------------------------------------------------------------------------------
 
 How to start application:
 
