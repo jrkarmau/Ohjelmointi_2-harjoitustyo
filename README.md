@@ -9,10 +9,11 @@ https://www.oracle.com/java/technologies/downloads/#jdk17-windows
 
 
 How to start application:
-![Alt text](how_to_start.gif) / ![](https://imgur.com/a/tleVUsl.gif)
+<img src="https://imgur.com/a/tleVUsl.gif">
 
 How to add a book:
-![Alt text](add_book.gif) / ![](https://imgur.com/a/D8yxjz6.gif)
+![](https://imgur.com/a/D8yxjz6.gif)
 
 Show statistic:
-![Alt text](statistic.gif) / ![](https://imgur.com/a/rDYjplJ.gif)
+![z1MzHDt - Imgur](https://user-images.githubusercontent.com/89894700/158526838-5591d84a-362b-4aad-8196-46b468d0e7f2.gif)
+
