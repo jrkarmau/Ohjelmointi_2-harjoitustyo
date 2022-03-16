@@ -4,9 +4,9 @@ After you have cloned the repo, you can start application by double clicking "av
 
 ---------------------------------------------------------------------------------------------------------------
 
-!! Works only with Java JDK version 17 !! 
+!! Tested working only with Java JDK version 17 !! 
 
-If you get an error "Kohdetta javaw ei löydy" or "Could not create the Java Vritual Machine"
+If you get an error "Kohdetta javaw ei löydy" or "Could not create the Java Virtual Machine"
 You have not installed Java properly or have wrong JDK version.
 
 Java JDK version 17 can be downloaded from here:
